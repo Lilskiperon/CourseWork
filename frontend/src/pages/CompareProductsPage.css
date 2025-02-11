@@ -1,0 +1,75 @@
+/* Comparison.css */
+.comparison-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.comparison-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.comparison-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.comparison-card-header {
+    margin-bottom: 20px;
+}
+
+.comparison-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.comparison-card h3 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.comparison-price {
+    font-size: 16px;
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: #d43f3f;
+}
+
+.comparison-card-body p {
+    text-align: left;
+    margin: 8px 0;
+}
+
+.comparison-card-body strong {
+    font-weight: bold;
+}

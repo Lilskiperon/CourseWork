@@ -1,0 +1,209 @@
+.product-page {
+  max-width: 1200px;
+  margin: 20px auto;
+
+  background: #fff;
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.product-container {
+  display: flex;
+  gap: 20px;
+}
+
+.image-section {
+  flex: 1;
+  text-align: center;
+}
+
+.main-image {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 8px;
+}
+
+.details-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+.product-title {
+  font-size: 24px;
+}
+
+.btn-select {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    border-color: #BB9B75;
+    margin: 5px 5px 5px 0px;
+}
+
+.active{
+    background-color: #BB9B75;
+    color: #fff;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.price {
+  font-size: 40px;
+  font-weight: bold;
+  color: #2F2F2F;
+}
+
+.add-to-cart-btn {
+  background: #2a9d8f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.add-to-cart-btn:hover {
+  background: #21867a;
+}
+
+
+.reviews {
+  margin-bottom: 20px;
+}
+
+.review-prompt {
+  font-size: 14px;
+  color: #999;
+}
+
+
+.additional-info{
+  flex:1.5;
+}
+.delivery-section{
+
+  background: #f4f4f4;
+  padding: 20px;
+}
+.delivery-section {
+  padding: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+.delivery-section:last-child {
+  border-bottom: none;
+  margin-bottom: none;
+}
+.delivery-section .title {
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 10px;
+  gap:10px;
+}
+.additional-info .delivery-section .truck_svg {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 18px;
+  background: url("/assets/svg/sprite-icons.svg#icon-map") center no-repeat;
+}
+.text {
+  color: #555;
+  line-height: 1.6;
+}
+.semibold {
+  font-weight: bold;
+}
+.info_delivery__addresses {
+  margin-top: 10px;
+}
+.addresses_item {
+  display: flex;
+  line-height: 30px;
+  text-decoration: none;
+  align-items: center;
+}
+.addresses_item a{
+  color: #2784d9;
+}
+.additional-info .delivery-section .map_svg {
+  display: block;
+  width: 14px;
+  height: 18px;
+  margin-right: 14px;
+}
+
+.additional-info .delivery-section .car_svg {
+  width: 18px;
+  height: 16px;
+  margin-right: 10px;
+  
+}
+.text_wr {
+  margin-bottom: 15px;
+}
+.text_wr_np, .text_wr_up {
+  display: flex;
+  margin-top: 10px;
+
+}
+
+.additional-info .delivery-section .np_svg {
+  flex-shrink: 0;
+  display: block;
+  width: 19px;
+  height: 19px;
+  margin-right: 9px;
+  margin-top: 5px;
+}
+
+.additional-info .delivery-section .up_svg {
+  flex-shrink: 0;
+  content: '';
+  display: block;
+  width: 19px;
+  height: 22px;
+  margin-right: 9px;
+  margin-top: 5px;
+
+}
+.delivery_check_terms_link {
+  cursor: pointer;
+}
+.delivery_check_terms_link:hover {
+  text-decoration:none;
+}
+
+.warning {
+  font-size: 14px;
+  color: #e63946;
+  margin-top: 10px;
+}

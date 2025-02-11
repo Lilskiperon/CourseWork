@@ -1,0 +1,274 @@
+.cartpage-container {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.cartpage-container .cartpage-progress {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.cartpage-container .step-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:15px;
+
+}
+
+.cartpage-container .step {
+  display: flex;
+  position: relative;
+  font-size: 20px;
+  color: #ccc;
+  width: 60px;
+  height: 60px;
+  background-color: #F9F9F9;
+  border-radius: 5px;
+}
+
+.cartpage-container .step::before {
+  content: '';
+  position: absolute;
+  background-color:#F9F9F9;
+  left: 0px;
+  z-index: -1;
+  top: 50%;
+  height: 1px;
+  width: 340px;
+}
+
+.cartpage-container .step-content:last-child .step::before  {
+  display: none;
+}
+
+.cartpage-container .step p{
+  margin: auto;
+}
+
+.cartpage-container .step.active {
+  color: #FFFFFF;
+  background-color: #1C1C1C;
+  font-weight: bold;
+}
+
+.cartpage-container .step.selected{
+  color: #FFFFFF;
+  background-color: #1C1C1C;
+  font-weight: bold;
+}
+
+.cartpage-container .step.selected::before {
+  background-color:#1C1C1C;
+}
+
+.cartpage-container h2{
+  font-family: JermilovSolid;
+  font-size: 70px;
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 20px;
+}
+
+.cartpage-content{
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+.table-content{
+  margin-right: 20px;
+}
+.table-content table {
+  padding: 20px 10px;
+  border: #D8D8D8 1px solid;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+td, th {
+  text-align: left;
+  padding: 8px;
+}
+table tr:last-child th{
+  font-size: 20px;
+}
+.cartpage-container svg{
+  height: 14px;
+  width: 14px;
+}
+table .cartproduct-title{
+  display: flex;
+  align-items: center;
+  gap:10px;
+}
+
+table .cartproduct-title img{
+  height: 86px;
+  width: 86px;
+}
+.cart-coupon {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+
+.coupon-input {
+  flex: 0.4;
+  padding: 10px;
+  border: 1px solid #ddd;
+
+  margin-right: 10px;
+}
+
+.apply-coupon {
+  flex: 0.25;
+  padding: 15px 25px;
+  background: #BB9B75;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+
+.content-options{
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.content-options h3{
+  font-family: JermilovSolid;
+  font-size: 35px;
+
+  margin-bottom: 20px;
+}
+
+
+.delivery-method {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.delivery-method label {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.delivery-method input[type="radio"] {
+  margin-right: 10px;
+}
+
+
+.payment-method {
+  display: flex;
+  padding: 20px;
+  border: 1px solid #ccc;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.payment-method input[type="radio"] {
+  margin-right: 10px;
+}
+
+.payment-method  .description {
+  margin-left: 25px;
+  line-height: 15px;
+  font-size: 14px;
+  color: #555;
+}
+.apply-order{
+  padding: 15px 25px;
+  background: #BB9B75;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.address-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.address-page h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+/* Стили формы */
+.address-form {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-group textarea {
+  resize: none;
+  height: 100px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.submit-button:active {
+  background-color: #003d80;
+}
