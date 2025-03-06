@@ -27,7 +27,6 @@ Review.belongsTo(User, { foreignKey: 'user_Id' });
 // Product -> Review
 Product.hasMany(Review, { foreignKey: 'product_id', onDelete: 'CASCADE' });
 Review.belongsTo(Product, { foreignKey: 'product_id' });
-
 // Product -> CartItem
 Product.hasMany(CartItem, { foreignKey: 'product_Id', onDelete: 'CASCADE' });
 CartItem.belongsTo(Product, { foreignKey: 'product_Id' });
