@@ -133,14 +133,14 @@ const Orders = () => {
 
   const handleCloseContextMenu = () => setContextMenu({ visible: false, x: 0, y: 0, row: null });
 
-  // Закрытие меню при клике вне
+
   if (contextMenu.visible) {
     setTimeout(() => {
       window.addEventListener("click", handleCloseContextMenu, { once: true });
     }, 0);
   }
 
-  // Пример редактирования (инлайн-редактирование)
+  
   const handleEdit = (row) => {
     alert(`Редактировать заказ ${row.original.OrderID}`);
   };
