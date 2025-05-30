@@ -1,31 +1,59 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const mongoose = require('mongoose');
 
-const Order = sequelize.define('Order', {
-    orderId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    user_Id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    order_date: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
-    total_amount: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    status: {
-        type: DataTypes.ENUM('ожидает', 'завершено', 'отменено'),
-        defaultValue: 'ожидает',
-    }
-}, {
-    tableName: 'order',
-    timestamps: false,
-});
+const orderSchema = new mongoose.Schema(
+	{
+		orderNumber: {
+			type: String,
+			required: true,
+			unique: true,
+			default: () => `ORD-${Date.now()}`,
+		},
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		products: [
+			{
+				product: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Flavor",
+					required: true,
+				},
+				quantity: {
+					type: Number,
+					required: true,
+					min: 1,
+				},
+				price: {
+					type: Number,
+					required: true,
+					min: 0,
+				},
+			},
+		],
+		totalAmount: {
+			type: Number,
+			required: true,
+			min: 0,
+		},
+		stripeSessionId: {
+			type: String,
+			unique: true,
+		},
+		status: {
+			type: String,
+			enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
+			default: "pending",
+		},
+		shippingAddress: {
+			type: String,
+			required: true,
+		},
+	},
+	{ timestamps: true }
+);
+
+const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;

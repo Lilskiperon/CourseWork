@@ -10,12 +10,29 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.1.0",
+    "@mui/x-data-grid": "^8.3.1",
+    "@stripe/stripe-js": "^6.1.0",
+    "@syncfusion/ej2-react-grids": "^29.2.4",
+    "@tanstack/react-table": "^8.21.3",
+    "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.7.9",
+    "framer-motion": "^12.6.2",
+    "frontend": "file:",
+    "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.484.0",
     "react": "^18.3.1",
+    "react-confetti": "^6.4.0",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.0.2"
+    "react-hot-toast": "^2.5.2",
+    "react-input-mask": "^2.0.4",
+    "react-router-dom": "^7.0.2",
+    "recharts": "^2.15.3",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

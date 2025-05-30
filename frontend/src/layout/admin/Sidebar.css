@@ -1,0 +1,101 @@
+.sidebar {
+    position: fixed;
+    z-index: 100;
+    height: 100%;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    border-right: 1px solid #e2e8f0;
+    background-color: white;
+    transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1), left 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.dark {
+    background-color: #1e293b; 
+    border-color: #2d3748; 
+}
+
+.sidebar.collapsed {
+    width: 70px; 
+}
+
+.sidebar.left-collapsed {
+    left: -100%; 
+}
+
+.sidebar img {
+    width: 40px;
+    height: 40px;
+}
+
+.sidebar .logo {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+}
+
+.sidebar .logo p {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #1e293b; /* текст в светлом режиме */
+    transition: color 0.3s ease;
+}
+
+.sidebar.dark .logo p {
+    color: #e2e8f0; /* текст в темном режиме */
+}
+
+.sidebar .nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.sidebar .nav-group-title {
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar.dark .nav-group-title {
+    color: #e2e8f0;
+}
+
+.sidebar .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    color: #4a5568;
+    text-decoration: none;
+      font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .sidebar-item:hover {
+    background-color: #f7fafc; /* фон при наведении */
+}
+
+.sidebar .sidebar-item.active {
+    background-color: #edf2f7; 
+}
+
+.sidebar .sidebar-item .icon {
+    font-size: 22px;
+    color: #4a5568;
+}
+
+.sidebar.dark .sidebar-item .icon {
+    color: #e2e8f0;
+}
+
+.sidebar.collapsed .sidebar-item {
+    width: 45px;
+    justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-item p {
+    display: none;
+}

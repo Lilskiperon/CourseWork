@@ -1,0 +1,40 @@
+.admin-layout {
+    min-height: 100vh;
+    background-color: #f1f5f9; 
+    transition: background-color 0.3s ease;
+}
+
+.admin-layout.dark {
+    background-color: #0f172a; 
+}
+
+.admin-overlay {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    background-color: black;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.admin-overlay.active {
+    pointer-events: auto;
+    z-index: 50;
+    opacity: 0.3;
+}
+
+.admin-content {
+    transition: margin 0.3s ease;
+}
+
+.admin-content.expanded {
+    margin-left: 240px;
+}
+
+.admin-main {
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.5rem;
+}

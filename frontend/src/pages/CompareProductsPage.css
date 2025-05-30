@@ -1,75 +1,116 @@
-/* Comparison.css */
 .comparison-page {
-    padding: 20px;
-    font-family: Arial, sans-serif;
+  max-width: 1361px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: hidden;
+}
+.comparison-page h2{
+  font-family: JermilovSolid;
+  font-size: 50px;
+  padding-top: 25px;
+  padding-bottom: 15px;
+  
+}
+.comparison-page .comparison-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.comparison-page .comparison-table-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+.comparison-page .comparison-table {
+  display: table;
+  border-collapse: separate;
+  transition: transform 0.3s ease-in-out;
+  border-spacing: 0 5px;
+  text-align: center;
 }
 
-.comparison-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+.comparison-page .categories {
+  display: flex;
+  margin-bottom: 25px;
+  border-top: 1px solid #e0e0e0;
 }
 
-.comparison-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 300px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
+.comparison-page .category {
+  min-width: 250px;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  color: #b68d5f;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease; 
+
 }
 
-.comparison-card-header {
-    margin-bottom: 20px;
+.comparison-page .category.active {
+  color: #FFFFFF;
+  background-color: #b68d5f;
+
+}
+.comparison-page .category:hover {
+  background-color: #b68d5f;
+  color: #FFFFFF;
+ 
 }
 
-.comparison-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border-radius: 8px;
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  gap: 10px;
 }
 
-.comparison-card h3 {
-    font-size: 18px;
-    margin: 10px 0;
+.navigation-buttons button {
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.comparison-price {
-    font-size: 16px;
-    color: #ff4d4d;
-    font-weight: bold;
+.comparison-page .select-option{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
 }
 
-.remove-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 8px 12px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.comparison-page .comparison-table tbody td {
+  background-color: #b68d5f50;
+  padding: 10px;
+  vertical-align: top;
+  max-width: 300px;
 }
 
-.remove-btn:hover {
-    background-color: #d43f3f;
+.comparison-page .comparison-table tbody th
+{
+  background-color: #b68d5f50;
+  padding: 10px;
+  min-width: 300px;
+  text-align: left;
+}
+.comparison-page .product-image{
+
+  position: relative;
+}
+.comparison-page .product-image img{
+  width: 225px;
+}
+.comparison-page .comparison-table .remove-button{
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  color: #00000050;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+.remove-button svg{
+  width: 14px;
+  height: 14px;
 }
 
-.comparison-card-body p {
-    text-align: left;
-    margin: 8px 0;
-}
-
-.comparison-card-body strong {
-    font-weight: bold;
-}
+  

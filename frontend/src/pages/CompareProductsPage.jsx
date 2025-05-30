@@ -1,96 +1,151 @@
-import React, { useEffect, useState } from 'react';
-import { useCart } from '../context/CartContext'; 
-import { getProductsByIds } from '../api/products'; 
+import { useState,useEffect,useRef } from 'react';
+import { useCartStore } from '../stores/useCartStore';
 import './CompareProductsPage.css';
 
-const ComparisonCard = React.memo(({ product, handleRemoveFromComparison }) => {
-    return (
-        <div className="comparison-card">
-            <div className="comparison-card-header">
-                <img
-                    src={product.productImageUrl}
-                    alt={product.productName}
-                    className="comparison-image"
-                />
-                <h3>{product.productName}</h3>
-                <p className="comparison-price">{product.price} $</p>
-                <button
-                    className="remove-btn"
-                    onClick={() => handleRemoveFromComparison(product.productId)}
-                >
-                    Удалить
-                </button>
-            </div>
-            <div className="comparison-card-body">
-                <p><strong>Бренд:</strong> {product.brand}</p>
-                <p><strong>Категория:</strong> {product.category}</p>
-                <p><strong>Вес:</strong> {product.weight} г</p>
-                <p><strong>Форма:</strong> {product.form}</p>
-                <p><strong>Тип:</strong> {product.type}</p>
-                <p><strong>Описание:</strong> {product.description}</p>
-                <p><strong>Пищевая ценность:</strong> {product.nutritionalValue} ккал</p>
-            </div>
-        </div>
-    );
-});
-
 const CompareProductsPage = () => {
-    const { comparison, handleRemoveFromComparison } = useCart();
-    const [comparisonList, setComparisonList] = useState([]);
-    const [sortOption, setSortOption] = useState('price');
+    const {comparison, removeFromComparison } = useCartStore();
+    const [showAllFeatures, setShowAllFeatures] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [containerWidth, setContainerWidth] = useState(0);
+    const containerRef = useRef(null);
+    const groupedByCategory = comparison.reduce((acc, product) => {
+      const category = product.productId.category || "Без категории";
+      if (!acc[category]) {
+          acc[category] = [];
+      }
+      acc[category].push(product);
+      return acc;
+    }, {});
 
     useEffect(() => {
-        const fetchComparisonProducts = async () => {
-            if (comparison.length === 0) {
-                setComparisonList([]); // Если список пустой, сбрасываем
-                return;
-            }
+        const firstCategory = Object.keys(groupedByCategory)[0];
+        if (!selectedCategory) {
+            setSelectedCategory(firstCategory);
+        }
+    }, [selectedCategory,groupedByCategory]);
 
-            try {
-                const products = await getProductsByIds(comparison);
-                const sortedProducts = [...products].sort((a, b) => {
-                    if (sortOption === 'price') {
-                        return a.price - b.price;
-                    }
-                    // Добавьте другие варианты сортировки по мере необходимости
-                    return 0;
-                });
-                setComparisonList(sortedProducts);
-            } catch (error) {
-                console.error('Ошибка загрузки товаров для сравнения:', error);
+    const products = groupedByCategory[selectedCategory] || [];
+    useEffect(() => { 
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                setContainerWidth(entry.contentRect.width);
+            }
+        });
+        if (containerRef.current) {
+            resizeObserver.observe(containerRef.current);
+        }
+        return () => {
+            if (containerRef.current) {
+                resizeObserver.unobserve(containerRef.current);
             }
         };
+    }, []);
 
-        fetchComparisonProducts();
-    }, [comparison, sortOption]);
+    const itemsPerView = Math.max(Math.floor(containerWidth / 300), 1); 
+    const maxIndex = Math.max(products.length - itemsPerView, 0);
 
-    const handleSortChange = (e) => {
-        setSortOption(e.target.value);
-    };
 
     return (
         <div className="comparison-page">
-            <h2>Сравнение товаров</h2>
-            <div className="sort-options">
-                <label htmlFor="sort">Сортировать по: </label>
-                <select id="sort" value={sortOption} onChange={handleSortChange}>
-                    <option value="price">Цена</option>
-                    {/* Добавьте другие варианты сортировки по мере необходимости */}
-                </select>
+            <h2>Сравнение</h2>
+            <div className="categories">
+                {Object.entries(groupedByCategory).map(([category, products]) => (
+                    <div
+                        key={category}
+                        className={`category ${selectedCategory === category ? "active" : ""}`}
+                        onClick={() => setSelectedCategory(category)} 
+                    >
+                        <span className="category-name">{category}</span>
+                        <span className="category-count">({products.length})</span>
+                    </div>
+                ))}
             </div>
-            {comparisonList.length > 0 ? (
-                <div className="comparison-container">
-                    {comparisonList.map((product) => (
-                        <ComparisonCard
-                            key={product.productId}
-                            product={product}
-                            handleRemoveFromComparison={handleRemoveFromComparison}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <p>Нет товаров для сравнения</p>
-            )}
+              <div className="navigation-buttons">
+                <button
+                   onClick={() => setCurrentIndex(prev => Math.max(prev - 1, 0))}
+                  disabled={currentIndex === 0}
+                >
+                    ←
+                </button>
+                <button
+                  onClick={() => setCurrentIndex(prev => Math.min(prev + 1, products.length - 1))}
+                    disabled={currentIndex >= maxIndex}
+                  
+                >
+                    →
+                </button>
+            </div>
+              <div className="comparison-table-wrapper">
+                 <div
+                    className="slider-track"
+                    style={{
+                        transform: `translateX(-${currentIndex * (containerWidth)}px)`,
+                        transition: 'transform 0.3s ease-in-out',
+                        width: `${(products.length * 300)}px`,
+                        display: 'flex'
+                    }}
+                >
+            <table className="comparison-table">
+              <thead>
+                <tr>
+                  <th><button>Добавить Товар</button></th>
+                  {products.map((product,index) => (<td key={`${product._id || index}-image`} className="product-image">
+                    <button className="remove-button" onClick={() => removeFromComparison(product._id)}>
+                      <svg className="svgicon">
+                        <use href="/assets/svg/sprite-icons.svg#icon-close"></use>
+                      </svg></button>
+                    <img src={product.productImageUrl}/>
+                    </td> ))}
+
+                </tr>
+                <tr>
+                  <th>
+                    <div className='select-option'>
+                        <label>
+                            <input type="radio" name="features"checked={showAllFeatures} onChange={() => setShowAllFeatures(true)} />
+                            Выбрать все
+                        </label>
+                        <label>
+                          <input type="radio"  name="features" checked={!showAllFeatures} onChange={() => setShowAllFeatures(false)}/>
+                        Выбрать разные</label>
+                    </div>
+                  </th>
+                  {products.map((product,index) => (<td key={`${product._id || index}-price`} className="product-price">
+                    {product.price}. -
+                    </td> ))}
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Бренд</th>
+                  {products.map((product, index) => (
+                    <td key={`${product._id || index}-brand`}>{product.productId.brand}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <th>Форма</th>
+                  {products.map((product, index) => (
+                    <td key={`${product._id || index}-form`}>{product.productId.form}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <th>Тип</th>
+                  {products.map((product, index) => (
+                    <td key={`${product._id || index}-type`}>{product.productId.type}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <th>Описание</th>
+                  {products.map((product, index) => (
+                    <td key={`${product._id || index}-description`}>{product.productId.description}</td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
         </div>
     );
 };

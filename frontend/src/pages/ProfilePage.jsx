@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+import  { useState, useEffect } from 'react';
+import { useUserStore } from '../stores/useUserStore';
 import { getOrderHistory } from '../api/orders';
 import { useNavigate, useParams } from 'react-router-dom';
 import './ProfilePage.css';
 
 const ProfilePage = () => {
-  const { authState, logout } = useAuth();
-  const { user } = authState;
+  const { user, logout } = useUserStore();
   const navigate = useNavigate();
   const { tab } = useParams();
   const [editMode, setEditMode] = useState(false);
@@ -49,7 +48,7 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (authState.isAuthenticated === false) {
+    if (user === false) {
       navigate('/login');
       return;
     }

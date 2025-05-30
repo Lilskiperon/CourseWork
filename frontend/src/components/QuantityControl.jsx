@@ -1,6 +1,10 @@
 import React from "react";
 import './QuantityControl.css';
-const QuantityControl = ({ quantity, onIncrease, onDecrease }) => {
+
+const QuantityControl = ({ quantity,  onDecrease, onIncrease }) => {
+
+
+
   return (
     <div className="item-quantity">
       <div className="quantity-content">

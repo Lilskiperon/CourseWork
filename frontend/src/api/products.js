@@ -1,15 +1,15 @@
 import { apiGet } from ".";
 
-export const getNewArrivals = () => apiGet('/products/new-arrivals');
+export const getNewArrivals = () => apiGet('/packagings/');
 
-export const getRecommendations = () => apiGet('/products/recommendations');
+export const getRecommendations = () => apiGet('/packagings/');
 
 export const getProductById = (productId) => apiGet(`/products/${productId}`);
 
-export const getProductsByIds = (productIds) => apiGet('/products/user-products', { ids: productIds });
+export const getProductsByIds = (productIds) => apiGet('/packagings/user-products', { ids: productIds });
 
-export const getProducts = (filters) => apiGet('/products/filter-products', filters);
+export const getProducts = (filters) => apiGet('/packagings/filter-products', filters);
 
-export const searchProducts = (query) => apiGet('/products/search', { query });
+export const searchProducts = (query) => apiGet('/packagings/search', { query });
 
-export const getFlavors = (packagingId) => apiGet(`/flavors/${packagingId}`);
+export const getFlavors = (packagingId) => apiGet(`/flavors/product/${packagingId}`);

@@ -1,69 +1,150 @@
-import React,{useState,useEffect} from "react";
-import { useCart } from '../context/CartContext';
+import {useState, useEffect} from "react";
 import "./ProductPage.css";
+import QuantityControl from "../components/QuantityControl";
+import axios from "../lib/axios";
+import { useSearchParams, useLocation, useNavigate,useParams  } from "react-router-dom";
 
 const ProductPage = () => {
-  const {increaseQuantity, decreaseQuantity} = useCart();
+  const location = useLocation();
+  const productState = location.state;
+  const { productId } = useParams();
+  const [searchParams] = useSearchParams();
+  const packagingId = searchParams.get("packagingId");
+  const flavorId = searchParams.get("flavorId");
+  const navigate = useNavigate();
+
+  const [product, setProduct] = useState(productState || {});
+  const [packagings, setPackagings] = useState([]);
+  const [flavors, setFlavors] = useState([]);
+  const [selectedPackaging, setSelectedPackaging] = useState(packagingId );
+  const [selectedFlavor, setSelectedFlavor] = useState(flavorId);
+  const [quantity,setQuantity] = useState(1);
   
+  const updateSearchParams = () => {
+    navigate({
+      pathname: location.pathname,
+      search: `?packagingId=${selectedPackaging}&flavorId=${selectedFlavor}`
+    });
+  };
+  useEffect(() => {
+    const packagingId = searchParams.get("packagingId");
+    const flavorId = searchParams.get("flavorId");
+    setSelectedPackaging(packagingId);
+    setSelectedFlavor(flavorId);
+  }, [searchParams]);
+
+  useEffect(() => {
+    axios.get(`/products/${productId}`)
+        .then((res) => {
+            setProduct(res.data);
+        })
+        .catch((err) => {
+            console.error('Ошибка при загрузке продукта:', err);
+            
+        });
+  }, [productId]);
+  
+  useEffect(() => {
+      if (product && product._id) {
+        axios.get(`/packagings/product/${product._id}`).then((res) => {
+          setPackagings(res.data);
+          const firstPackagingId = res.data[0]?._id;
+          const packaginExists = res.data.some(packaging => packaging._id === packagingId);
+          if (!packaginExists && firstPackagingId) {
+            handlePackagingSelect(firstPackagingId);
+          }
+        }
+      );
+      }
+  }, [product._id]);
+  useEffect(() => {
+    if (selectedPackaging) {
+      axios.get(`/flavors/product/${selectedPackaging}`).then((res) => {
+      setFlavors(res.data);
+      const firstFlavorId = res.data[0]?._id;
+      const flavorExists = res.data.some(flavor => flavor._id === flavorId);
+        if (!flavorExists && firstFlavorId) {
+          handleFlavorSelect(firstFlavorId);
+        }
+      });
+    }
+  }, [selectedPackaging]);
+
+
+  useEffect(() => {
+    if (selectedPackaging && selectedFlavor) {
+      updateSearchParams();
+    }
+  }, [selectedPackaging, selectedFlavor]);
+
+  const handlePackagingSelect = (id) => {
+    if (selectedPackaging !== id) setSelectedPackaging(id);
+  };
+
+  const handleFlavorSelect = (id) => setSelectedFlavor(id);
+
+  const handleIncreaseQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecreaseQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+
 
   return (
+
     <div className="product-page">
-      <div className="breadcrumbs">Главная / Оральные препараты / Stanozolol 10mg/tab, 100tab</div>
+      <div className="breadcrumbs">Главная / {product.category} / {product.productName}</div>
       <div className="product-container">
         <div className="image-section">
           <img
             className="main-image"
-            src=""
+            src={packagings.find(p => p._id === selectedPackaging)?.productImageUrl || "-"}
             alt="Product"
           />
         </div>
         <div className="details-section">
-          <h1 className="product-title">Stanozolol 10mg/tab, 100tab</h1>
+          <h1 className="product-title">{product.productName}</h1>
           <div className="horizontal_line"></div>
           <div className="brand-section">
-            <strong>Бренд:</strong> MyProtein
+            <strong>Бренд:</strong> {product.brand}
           </div>
           <div className="horizontal_line"></div>
           <div className="categories-section">
-            <strong>Категории:</strong> ERGO, Оральные препараты, Станозолол
+            <strong>Категории:</strong> {product.category}
           </div>
           <div className="horizontal_line"></div>
           <div className="product-single-package_section">
             <div className="product-info__name">Фасовка</div>
             <div className="product-single-packages">
-                <a href="" className="btn-select active">25 грамм</a>
-                <a href="" className="btn-select ">1000 грамм</a>
-                <a href="" className="btn-select ">2500 грамм</a>
-                <a href="" className="btn-select ">5000 грамм</a>
+              {packagings.map((packaging) => (
+                <button key={packaging._id} onClick={() => handlePackagingSelect(packaging._id)} className={`btn-select ${selectedPackaging === packaging._id ? "active" : ""}`}>
+                  {packaging.weight} грамм
+                </button>
+              ))}
             </div>
           </div>
           <div className="horizontal_line"></div>
           <div className="product-single-attributes_section">
             <div className="product-info__name">Ассортимент вкусов</div>
             <div className="product-single-attributes">
-                <div className="btn-select active" data-id="12564" data-count="128" data-sales="1 067 грн">Натуральна полуниця</div>
-                <div className="btn-select " data-id="12580" data-count="124" data-sales="1 067 грн" >Натуральный шоколад</div>
-                <div className="btn-select " data-id="12570" data-count="123" data-sales="1 067 грн" >Шоколадный брауни</div>
+            {flavors.map((flavor) => (
+                <button key={flavor._id} onClick={() => handleFlavorSelect(flavor._id)} className={`btn-select ${selectedFlavor === flavor._id ? "active" : ""}`}>
+                  {flavor.flavorName}
+                </button>
+              ))}
             </div>
           </div>
           <div className="horizontal_line"></div>
           <div className="price-section">
-            <span className="price">880 ₽</span>
-            <div className="item-quantity">
-                  <div className="quantity-content">
-                    <button onClick={() => decreaseQuantity(1)}>
-                      <svg className="svgicon">
-                        <use href="/assets/svg/sprite-icons.svg#icon-minus"></use>
-                      </svg>
-                    </button>
-                    <span>1</span>
-                    <button onClick={() => increaseQuantity(1)}>
-                      <svg className="svgicon">
-                        <use href="/assets/svg/sprite-icons.svg#icon-plus"></use>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+            <span className="price">{(packagings.find(p => p._id === selectedPackaging)?.price * quantity || "-")} $</span>
+             <QuantityControl
+              quantity={quantity}
+              onIncrease={handleIncreaseQuantity}
+              onDecrease={handleDecreaseQuantity}
+            />
             <button className="add-to-cart-btn">В корзину</button>
           </div>
           <div className="horizontal_line"></div>

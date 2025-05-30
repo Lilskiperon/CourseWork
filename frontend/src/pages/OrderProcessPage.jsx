@@ -1,4 +1,3 @@
-import React from "react";
 import "./OrderProcessPage.css";
 
 const OrderProcessPage = () => {
@@ -15,13 +14,13 @@ const OrderProcessPage = () => {
         <div className="step">
           <p>
             Переходим в Корзину, выбираем способ доставки, жмём
-            <strong> "Оформить заказ"</strong>.
+            <strong> &quotОформить заказ&quot</strong>.
           </p>
         </div>
         <div className="step">
           <p>
             Вводим ФИО, ваш e-mail (на него придут реквизиты для оплаты), вводим адрес
-            доставки, жмём <strong>"Подтвердить заказ"</strong>.
+            доставки, жмём <strong>&quotПодтвердить заказ&quot</strong>.
           </p>
         </div>
         <div className="step">

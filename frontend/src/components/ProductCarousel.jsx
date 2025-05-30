@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import { useState, useEffect,useRef  } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import CardProduct from './cards/CardProduct';
 import CardNews from './cards/CardNews'
 function ProductCarousel({ title, products, itemType}) {
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const totalPages = 4;
+    const prevPage = useRef(currentPage);  
     useEffect(() => {
         const updateItemsPerPage = () => {
             const width = window.innerWidth;
@@ -13,7 +16,7 @@ function ProductCarousel({ title, products, itemType}) {
             } else if (width < 1250) {
                 setItemsPerPage(3); // Планшеты - 3 элемента
             }else if (width < 1450) {
-                setItemsPerPage(4); // Планшеты - 3 элемента
+                setItemsPerPage(4); // Планшеты - 4 элемента
             } else {
                 setItemsPerPage(5); // Десктопы - 5 элементов
             }
@@ -25,114 +28,62 @@ function ProductCarousel({ title, products, itemType}) {
 
         return () => window.removeEventListener('resize', updateItemsPerPage);
     }, []);
-    useEffect(() => {
-        const fetchAndRenderSvg = (url, targetId) => {
-            fetch(url)
-                .then((response) => response.text())
-                .then((svgContent) => {
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.innerHTML = svgContent;
-
-                        const circles = targetElement.querySelectorAll('circle');
-
-                        // Обновить внешний вид точек
-                        const updateActiveCircle = () => {
-                            circles.forEach((circle, index) => {
-                                circle.style.fillOpacity =
-                                    index-1 === currentPage ? '1' : '0';
-                            });
-                        };
-
-
-                        // Установить обработчики кликов
-                        circles.forEach((circle, index) => {
-                            circle.addEventListener('click', () => {
-                                setCurrentPage(index-1);
-                            });
-                        });
-
-                        // Обновить начальное состояние
-                        updateActiveCircle();
-
-                        // Обновляем точки при изменении currentPage
-                        const observer = new MutationObserver(() => {
-                            updateActiveCircle();
-                        });
-
-                        observer.observe(targetElement, {
-                            childList: true,
-                            subtree: true,
-                        });
-                    }
-                })
-                .catch((error) =>
-                    console.error('Error loading SVG:', error)
-                );
-        };
-
-        // Загрузка SVG для точек
-        fetchAndRenderSvg(
-            '/assets/svg/ellipse.svg',
-            `${title}-pagination`
-        );
-    }, [title, currentPage]);
     
     // Вычисляем текущие продукты
     const currentProducts = products.slice(
         currentPage * itemsPerPage,
         (currentPage + 1) * itemsPerPage
     );
-
     // Функция для переключения страниц
     const goToPage = (pageIndex) => {
         if (pageIndex >= 0 && pageIndex < totalPages) {
-            setCurrentPage(pageIndex);
+            prevPage.current = currentPage;
+            setCurrentPage(pageIndex); // Обновляем страницу после выхода
         }
     };
 
     return (
         <section className="carousel-section">
-                <a className="scroll-control page-button"
-                    onClick={() => goToPage(currentPage - 1)}>
-                    <div className={`circle circle1 ${ currentPage === 0 ? 'disabled' : ''}`}>
-                        <div className="circle circle2">
-                            <svg className="svgiconarrow">
-                                <use href="/assets/svg/sprite-icons.svg#icon-left-arrow"></use>
-                            </svg>
-                        </div>
-                    </div>
-                </a>
-                <div className="content">
-                    <div className="collection-item ">
-                        <h2>{title}</h2>
-                        <div className="cards-list">
-                        {itemType === 'product' ? (
-                            currentProducts.flatMap(product => 
-                                product.packagingOptions.map(packagingOption => (
-                                    <CardProduct key={packagingOption.packagingId} product={product} packagingOption={packagingOption} />
-                                ))
-                            ).slice(0, itemsPerPage) 
-                        ) : (
-                            currentProducts.map(product => (
-                                <CardNews key={product.id} news={product} />
-                            ))
-                        )}
-                    </div>
-                    <span id={`${title}-pagination`} className="page-list"></span>
+                <button   onClick={() => goToPage(currentPage - 1)} className={`page-button left ${ currentPage === 0 ? 'disabled' : ''}`}>
+                </button>
+                <div className="collection-item">
+                    <h2>{title}</h2>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={currentPage} 
+                                initial={{ x: (prevPage.current < currentPage ? -1 : 1) * -150, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                exit={{
+                                    opacity: 0
+                                }} 
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                                className="cards-list"
+        
+                            >
+                                {itemType === 'product' ? (
+                                    currentProducts.map(product => (
+                                        <CardProduct key={product._id} product={product} />
+                                    ))
+                                ) : (
+                                    currentProducts.map(product => (
+                                        <CardNews key={product._id} news={product} />
+                                    ))
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
+                    <div className="page-list">
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <span 
+                                key={index} 
+                                className={`dot ${index === currentPage ? 'active' : ''}`}
+                                onClick={() => goToPage(index)}
+                            />
+                        ))}
                     </div>
                 </div>
-                    
-                <a className="scroll-control page-button" 
-                    onClick={() => goToPage(currentPage + 1)}>
-                    <div className={`circle circle1 ${ currentPage === totalPages - 1 ? 'disabled' : ''}`}>
-                        <div className="circle circle2">
-                            <svg className="svgiconarrow">
-                                <use href="/assets/svg/sprite-icons.svg#icon-right-arrow"></use>
-                            </svg>
-                        </div>
-                    </div>
-                </a>
+                <button onClick={() => goToPage(currentPage + 1)} className={`page-button right ${ currentPage === totalPages - 1 ? 'disabled' : ''}`}>
+                </button>
+
         </section>
     );
 }

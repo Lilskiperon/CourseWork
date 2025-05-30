@@ -26,12 +26,12 @@ export const CartProvider = ({ children }) => {
   
         if (cartIds.length > 0) {
           try {
-            const response = await getProductsByIds(cartIds); // Загружаем товары из API
+            const response = await getProductsByIds(cartIds);
             const itemsWithQuantities = response.map((item) => {
               const savedQuantity = localStorage.getItem(`product-${item.productId}`);
               return {
                 ...item,
-                quantity: savedQuantity ? parseInt(savedQuantity, 10) : 1, // Устанавливаем количество
+                quantity: savedQuantity ? parseInt(savedQuantity, 10) : 1, 
               };
             });
   
@@ -102,7 +102,7 @@ export const CartProvider = ({ children }) => {
         showToast('Товар убран из корзины');
     };
 
-    const handleAddToWishlist = (productId) => {
+    const handleAddToWishlist = (_id) => {
         addToWishlist(productId);
         setWishlist(prevWishlist => [...prevWishlist, productId]);
         showToast('Товар добавлен в желаемое');

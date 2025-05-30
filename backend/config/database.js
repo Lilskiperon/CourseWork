@@ -1,13 +1,17 @@
-const { Sequelize } = require('sequelize');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    logging: false, 
-});
-sequelize.sync({ alter: false }) // Используйте alter: false, чтобы избежать изменений в таблицах
-    .then(() => console.log('База данных синхронизирована'))
-    .catch((err) => console.error('Ошибка синхронизации базы данных:', err));
-    
-module.exports = sequelize;
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Successfully connected to MongoDB!");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+}
+
+
+module.exports = connectDB;

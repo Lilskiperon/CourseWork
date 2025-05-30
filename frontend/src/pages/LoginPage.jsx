@@ -1,35 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; 
+import { useUserStore } from "../stores/useUserStore";
 function LoginPage() {
-  
+  const {login} = useUserStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate();
-  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     
-    if (!email || !password) {
-      alert("Пожалуйста, заполните все поля.");
-      return;
-    }
-
     const formData = {
       email,
       password,
       rememberMe,
     };
-    try {
-        login(formData); // Сохраняем токен в контексте
-        alert("Вход выполнен успешно!");
-        navigate(`/profile`);
-    } catch (error) {
-      alert(error.message);
-    }
+
+    login(formData); 
   };
 
   return (
@@ -41,8 +28,8 @@ function LoginPage() {
           Зарегистрируйтесь
         </Link>
       </p>
-      <form onSubmit={handleLogin} className="login-form">
-        <div className="form-container">
+      <form onSubmit={handleLogin}>
+        <div className="form-group">
           <label>Ваша почта</label>
           <input
             type="email"
@@ -51,7 +38,19 @@ function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <div className="remember-me">
+
+        </div>
+        <div className="form-group">
+          <label>Пароль</label>
+          <input
+            type="password"
+            placeholder="Введите пароль"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="remember-me">
             <input
               type="checkbox"
               id="remember"
@@ -59,24 +58,12 @@ function LoginPage() {
               onChange={() => setRememberMe(!rememberMe)}
             />
             <label htmlFor="remember">Запомнить меня</label>
-          </div>
         </div>
-
-        <div className="form-container">
-          <label>Пароль</label>
-          <input
-            type="password"
-            placeholder="Введите ваш пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <div className="forgot-password">
+        <div className="forgot-password">
             <Link to="/forgot-password">Забыли пароль?</Link>
           </div>
-          <div className="submit-btn">
-            <button type="submit">Войти</button>
-          </div>
+        <div className="submit-btn">
+          <button type="submit">Войти</button>
         </div>
       </form>
 

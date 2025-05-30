@@ -1,3 +1,5 @@
+
+
 /*---------------RESET-----------------*/ 
 *,
 *::before,
@@ -39,9 +41,16 @@ body{
 /*---------------RESET-----------------*/
 
 /*---------------BASIC-----------------*/
+
 ._container{
     max-width: 1381px;
-    margin: 0px auto; 
+    margin: 0px auto;
+}
+.content{
+    overflow-x: hidden;
+}
+.content > div:nth-child(3n) {
+    background-color: #F8F8F8; /* Цвет фона для каждого второго дочернего блока */
 }
 
 @font-face {
@@ -69,7 +78,6 @@ body{
   border: 0;
 }
 
-
 /*---------------HEADER-----------------*/
 * {
     box-sizing: border-box;
@@ -79,11 +87,8 @@ body{
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: #FFFFFF;
-    padding: 0 30px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -91,23 +96,23 @@ header {
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     border-bottom: #000;
 }
 
-.logo {
+.nav_block .logo {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.logo img {
+.nav_block .logo img {
     height: 71px;
     height: 71px;
     margin-right: 10px;
 }
 
-.logo h1 {
+.nav_block .logo h1 {
     font-size: 20px;
     color: #303030;
 }
@@ -118,9 +123,8 @@ header {
 }
 
 .menu {
-    display: flex;
     align-items: center;
-    border-right: 1px solid #DFDFDF;
+    flex-grow: 1; 
 }
 
 .menu ul {
@@ -130,11 +134,12 @@ header {
     padding: 0;
     margin: 0;
     display: flex;
+    justify-content: space-between;
 }
 
 .menu li {
     height: 100%;
-    margin: 0 15px;
+    padding: 0 15px;
     align-content: center;
 }
 
@@ -142,6 +147,7 @@ header {
     color: #303030;
     text-decoration: none;
     font-size: 16px;
+    
 }
 
 .menu a:hover {
@@ -189,6 +195,10 @@ header {
     position: relative;
     border-right: 1px solid #DFDFDF;
 }
+
+.icon-wrapper:first-child{
+    border-left: 1px solid #DFDFDF;
+}
 .tooltip-badge {
     position: absolute;
     top: 5px; 
@@ -196,7 +206,6 @@ header {
     background-color: #b68d5f; 
     color: #fff; 
     font-size: 12px;
-
     text-align: center;
     width: 15px;
     height: 15px;
@@ -335,14 +344,14 @@ header {
   transform: scale(0.95);
 }
 
-.cart {
+.icons .cart {
     display: flex;
     align-items: center;
     color: #303030;
     padding-right: 10px;
 }
 
-.cart span {
+.icons .cart span {
     font-size: 14px;
 }
 .cartInfo{
@@ -361,15 +370,17 @@ header {
     width: 155px;
     background: linear-gradient(90deg, rgba(207,174,135,1) 0%, rgba(164,129,89,1) 100%);
 }
-
+.moreItems a{
+    display: flex;
+    align-items: center;
+}
 .moreItems span{
     color: #FFFFFF;
-    align-self: center;
 }
 
 .moreItems svg{
     height: 30px;
-    vertical-align: middle;
+    
     margin-right: 10px;
     
 }
@@ -392,7 +403,7 @@ header {
     background: #F8F8F8;
 }
 
-.telegram-section .content {
+.telegram-section .telegram-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -457,17 +468,8 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 60px 0  60px 0;
-    
-}
-
-.carousel-section .сontent{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 50px 0px;
-    margin: 0 auto;
-    max-width: 1300px;
+    padding: 60px 0  60px 0;
+    overflow-x: hidden;
 }
 
 .collection-item {
@@ -493,7 +495,7 @@ header {
     gap: 10px;
 }
 
-.card {
+.card-product {
     position: relative;
     background: white;
     display: flex;
@@ -506,20 +508,20 @@ header {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
+.card-product:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
-.card img {
+.card-product img {
     display: block; 
     margin: 0 auto 10px;
     height: 240px;
     width: 240px;
 }
 
-.text-block{
+.card-product .text-block{
     flex-grow: 1;
     display: flex; 
     flex-direction: column; 
@@ -527,32 +529,33 @@ header {
     padding: 0 10px 10px;
 }
 
-.card h3{
+.card-product h3{
     font-size: 18px;
     font-weight: bold;
     margin: 10px 0;
 }
 
-.card p{
+.card-product p{
     font-size: 14px;
     color: #777;
     margin: 10px 0;
 }
 
-.productPrice {
+.card-product .productPrice {
     font-size: 18px;
     font-weight: bold;
     color: #000;
     margin: 10px 0;
 }
 
-.card button {
+.card-product button {
     width: 100%;
-    background-color: #c5a880;
+    background-color: #BB9B75;
     border: none;
     color: white;
     padding: 10px;
     margin: 5px 0;
+    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -598,91 +601,101 @@ header {
     background-color: #f1f1f1;
 }
 
-.scroll-control{
-    padding: 20px;
-}
-
-.circle{
-    border-radius: 50%; 
+.page-button{
     display: flex;
-    cursor: pointer; 
-}
-
-.circle1{
     width: 60px;
     height: 60px;
+    z-index: 99;
     background-color: #FFF;
-    padding: 5px;
+    margin: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; 
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
-.scroll-control .circle1:active{
+.page-button::before {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #f8f8f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('/assets/svg/left-arrow.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 11px 19px; 
+}
+
+
+/* Стрелка для кнопки вправо */
+.page-button.right::before {
+    transform: rotate(180deg); 
+}
+
+.page-button:active{
     box-shadow:rgba(166, 131, 90, 0.541) 0px 1px 2px, rgba(166, 131, 90, 0.541) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(166, 131, 90, 0.541) 0px 16px 32px, rgba(166, 131, 90, 0.623) 0px 32px 64px; ;
 }
 
-.circle2{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    background-color: #F8F8F8;
-    align-items: center;
-    justify-content: center;
+
+.page-button:hover::before{
+    background-color: #BB9B75;
+    background-image: url('/assets/svg/left-arrow-hover.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 11px 19px;
 }
 
-.svgiconarrow{
-    height: 19px;
-    width: 11px;
-    fill:#BB9B75 ;
-}
-
-.circle1:hover{
-    .circle2{
-        background: linear-gradient(90deg, #A6835A 0%, #D2B490 100%);
-    }
-
-    .circle2 svg{
-        transition: fill 0.2s ease-in-out;
-        fill: #FFFFFF;
-    }
-}
-
-.circle1.disabled {
+.page-button.disabled {
     background-color: #E0E0E0;
     cursor: default;
 }
 
-.circle1.disabled .circle2 {
+.page-button.disabled::before {
     background-color: #F0F0F0;
-    cursor: default; 
+    cursor: default;
+    background-image: url('/assets/svg/left-arrow-disable.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 11px 19px;  
 }
 
-.circle1.disabled .svgiconarrow {
-    fill: #B0B0B0;
-    cursor: default; 
-}
-
-.circle1.disabled:hover {
-
-    .circle2{
-        background: #F0F0F0;
-    }
-    .circle2 svg{
-        fill: #B0B0B0;
-    }
-}
-
-.circle1.disabled:active{
+.page-button.disabled:active{
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
-#list-page{
-    margin-top: 15px;
+
+.page-list
+{
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
 }
-#list-page circle{
-    transition: fill-opacity 0.3s ease-in-out;
+.dot {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: background-color 1s ease-in-out;
 }
 
-.card .ngmassa-favorite, .ngmassa-comparison {
+.dot.active::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #b4905a; /* Цвет активного кружка */
+    border-radius: 50%;
+}
+
+.card-product .ngmassa-favorite, .ngmassa-comparison {
     position: absolute;
     top: 0;
     right: 0;
@@ -755,7 +768,7 @@ header {
 /*---------------Auth BLOCK----------------*/
 .auth-block {
   display: block;
-  width: 60%;
+  max-width: 1361px;
   margin: 50px auto;
   background: #F8F8F8;
   padding: 20px;
@@ -788,12 +801,13 @@ header {
 }
 
 .auth-block form{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
-
-.auth-block .form-container{
-    width: 50%;
+.auth-block form div:last-child{
+    grid-column: 2 / 3;
+    
 }
 
 .password-container {
@@ -803,10 +817,9 @@ header {
 .password-container button{
     position: absolute;
     right: 15px;
-    top: 40%;
+    top: 50%;
     transform: translateY(-50%);
     background: none;
-
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -826,9 +839,6 @@ header {
   opacity: 0.8; 
 }
 
-.eye-icon.open circle{
-    display: none;
-}
 
 input[type="password"],
 input[type="text"] {
@@ -843,21 +853,38 @@ button[type="button"]:active .eye-icon {
   transform: scale(1.5); 
 }
 
-.auth-block label {
-  display: block;
-  text-align: left;
-  margin-bottom: 5px;
-  color: #6B6B6B;
+.form-group {
+  margin-bottom: 15px;
 }
 
-.auth-block input {
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
   width: 100%;
   padding: 15px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.form-group textarea {
+  resize: none;
+  height: 100px;
+}
 .submit-btn{
     width: 100%;
     display: flex;
@@ -878,7 +905,7 @@ button[type="button"]:active .eye-icon {
 
 .remember-me{
     display: flex;
-    justify-self: left;
+    align-items: center;
 }
 
 .remember-me label{
@@ -888,7 +915,6 @@ button[type="button"]:active .eye-icon {
 
 .forgot-password {
     text-align: right;
-    margin-bottom: 10px;
 }
 
 .forgot-password a{

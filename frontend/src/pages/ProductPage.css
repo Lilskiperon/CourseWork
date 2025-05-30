@@ -1,5 +1,5 @@
 .product-page {
-  max-width: 1200px;
+  max-width: 1381px;
   margin: 20px auto;
 
   background: #fff;
@@ -27,12 +27,11 @@
   border-radius: 8px;
 }
 
-.details-section {
+.product-container .details-section {
     flex: 2;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    
 }
 
 .product-title {
@@ -60,7 +59,7 @@
     margin: 5px 5px 5px 0px;
 }
 
-.active{
+.btn-select.active{
     background-color: #BB9B75;
     color: #fff;
 }

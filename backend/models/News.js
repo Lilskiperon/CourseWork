@@ -1,31 +1,14 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Ваше подключение к базе данных
+const mongoose = require('mongoose');
 
-const News = sequelize.define('News', {
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  category: {
-    type: DataTypes.STRING,
-  },
-  author: {
-    type: DataTypes.STRING,
-  },
-  date: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-  },
-  image_url: {
-    type: DataTypes.STRING,
-  },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-}, {
-  tableName: 'news',
-  timestamps: false, // Если таблица не содержит createdAt и updatedAt
-});
+const newsSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    category: { type: String, required: false },
+    author: { type: String, required: false },
+    date: { type: Date, required: true },
+    image_url: { type: String, required: false },
+    content: { type: String, required: true }
+}, { timestamps: true });
+
+const News = mongoose.model('News', newsSchema);
 
 module.exports = News;

@@ -6,7 +6,7 @@ const CardNews = ({ news }) => {
   const navigate = useNavigate();
 
   const handleReadMore = () => {
-    navigate(`/news/${news.id}`, { state: { news } });
+    navigate(`/news/${news._id}`, { state: { news } });
   };
 
   return (

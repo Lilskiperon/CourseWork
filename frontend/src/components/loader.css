@@ -1,0 +1,46 @@
+.loader-container {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .loader {
+    position: relative;
+    width: 100px;
+    height: 24px;
+  }
+  
+  .loader:before, .loader:after {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #BB9B75;
+    box-shadow: 48px 0 #BB9B75;
+    left: 0;
+    top: 0;
+    animation: ballMoveX 1s linear infinite;
+  }
+  
+  .loader:after {
+    box-shadow: none;
+    transform-origin: 60px 0;
+    transform: rotate(207deg);
+    animation: rotateLoader 1s linear infinite;
+  }
+  
+  @keyframes rotateLoader {
+    0%, 10% { transform: rotate(207deg); }
+    90%, 100% { transform: rotate(0deg); }
+  }
+  
+  @keyframes ballMoveX {
+    0%, 10% { transform: translateX(0); }
+    90%, 100% { transform: translateX(48px); }
+  }
+  

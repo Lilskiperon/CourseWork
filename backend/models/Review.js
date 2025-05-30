@@ -1,35 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const mongoose = require('mongoose');
 
-const Review = sequelize.define('Review', {
-    reviewId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    product_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    user_Id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-    rating: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-    description: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    createdReview: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    }
-}, {
-    tableName: 'review',
-    timestamps: false,
-});
+const reviewSchema = new mongoose.Schema({
+    product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+    rating: { type: Number, required: false },
+    description: { type: String, required: false },
+}, { timestamps: true });
+
+const Review = mongoose.model('Review', reviewSchema);
 
 module.exports = Review;

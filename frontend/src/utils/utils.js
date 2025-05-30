@@ -1,42 +1,62 @@
-import axios from 'axios';
-import BASE_URL from './config';
-
-const CART_KEY = 'cart';
-const WISHLIST_KEY = 'wishlist';
-const COMPARISON_KEY = 'comparison';
-
-// Универсальная функция для получения данных из localStorage
-const getItems = (key) => JSON.parse(localStorage.getItem(key)) || [];
-
-// Универсальная функция для сохранения данных в localStorage
-const saveItems = (key, items) => localStorage.setItem(key, JSON.stringify(items));
-
-// Функции для получения данных
-export const getCart = () => getItems(CART_KEY);
-export const getWishlist = () => getItems(WISHLIST_KEY);
-export const getComparison = () => getItems(COMPARISON_KEY);
-
-// Универсальная функция для добавления элемента
-const addItem = (key, itemId) => {
-    const items = getItems(key);
-    if (!items.includes(itemId)) {
-        items.push(itemId);
-        saveItems(key, items);
-    }
-};
-
-// Универсальная функция для удаления элемента
-const removeItem = (key, itemId) => {
-    const items = getItems(key).filter(id => id !== itemId);
-    saveItems(key, items);
+// Универсальная функция для работы с localStorage с sessionId
+const storageHandler = {
+  getItems: (sessionId, key) => {
+      const items = JSON.parse(localStorage.getItem(`${sessionId}-${key}`)) || [];
+      return items;
+  },
+  saveItems: (sessionId, key, items) => {
+      localStorage.setItem(`${sessionId}-${key}`, JSON.stringify(items));
+  },
+  addItem: (sessionId, key, productId, flavorId, packagingId) => {
+      const items = storageHandler.getItems(sessionId, key);
+      const newItem = { productId, flavorId, packagingId };
+      
+      // Проверяем, чтобы элемент с такой комбинацией не был добавлен
+      if (!items.some(item => 
+          item.productId === productId && 
+          item.flavorId === flavorId && 
+          item.packagingId === packagingId
+      )) {
+          items.push(newItem);
+          storageHandler.saveItems(sessionId, key, items);
+      }
+  },
+  removeItem: (sessionId, key, productId, flavorId, packagingId) => {
+      const items = storageHandler.getItems(sessionId, key).filter(item =>
+          item.productId !== productId || 
+          item.flavorId !== flavorId || 
+          item.packagingId !== packagingId
+      );
+      storageHandler.saveItems(sessionId, key, items);
+  }
 };
 
 // Функции для работы с корзиной, списком желаемого и сравнением
-export const addToCart = (productId) => addItem(CART_KEY, productId);
-export const removeFromCart = (productId) => removeItem(CART_KEY, productId);
+export const getCart = (sessionId) => storageHandler.getItems(sessionId, 'cart');
+export const getWishlist = (sessionId) => storageHandler.getItems(sessionId, 'wishlist');
+export const getComparison = (sessionId) => storageHandler.getItems(sessionId, 'comparison');
 
-export const addToWishlist = (productId) => addItem(WISHLIST_KEY, productId);
-export const removeFromWishlist = (productId) => removeItem(WISHLIST_KEY, productId);
+// Функции для добавления и удаления элементов
+export const addToCart = (sessionId, productId, flavorId, packagingId) => {
+  storageHandler.addItem(sessionId, 'cart', productId, flavorId, packagingId);
+};
 
-export const addToComparison = (productId) => addItem(COMPARISON_KEY, productId);
-export const removeFromComparison = (productId) => removeItem(COMPARISON_KEY, productId);
+export const removeFromCart = (sessionId, productId, flavorId, packagingId) => {
+  storageHandler.removeItem(sessionId, 'cart', productId, flavorId, packagingId);
+};
+
+export const addToWishlist = (sessionId, productId, flavorId, packagingId) => {
+  storageHandler.addItem(sessionId, 'wishlist', productId, flavorId, packagingId);
+};
+
+export const removeFromWishlist = (sessionId, productId, flavorId, packagingId) => {
+  storageHandler.removeItem(sessionId, 'wishlist', productId, flavorId, packagingId);
+};
+
+export const addToComparison = (sessionId, productId, flavorId, packagingId) => {
+  storageHandler.addItem(sessionId, 'comparison', productId, flavorId, packagingId);
+};
+
+export const removeFromComparison = (sessionId, productId, flavorId, packagingId) => {
+  storageHandler.removeItem(sessionId, 'comparison', productId, flavorId, packagingId);
+};

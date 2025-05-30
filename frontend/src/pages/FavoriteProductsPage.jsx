@@ -1,50 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useCart } from '../context/CartContext'; 
-import { getProductsByIds } from '../api/products'; 
+import React, { useState } from 'react';
 import './FavoriteProductsPage.css';
+import { useCartStore } from '../stores/useCartStore';
 const FavoriteProducts = () => {
-    const { wishlist, handleRemoveFromWishlist } = useCart();
-    const [favorites, setFavorites] = useState([]);
-
-    useEffect(() => {
-        const fetchWishlistProducts = async () => {
-          if (wishlist.length === 0) {
-            setFavorites([]); // Если список пустой, сбрасываем
-            return;
-          }
-    
-          try {
-            const products = await getProductsByIds(wishlist);
-            setFavorites(products);
-          } catch (error) {
-            console.error('Ошибка загрузки товаров для сравнения:', error);
-          }
-        };
-    
-        fetchWishlistProducts();
-    }, [wishlist]);
-
+    const { wishlist, removeFromWishlist } = useCartStore();
     return (
         <div className="favorite-products-page">
             <h2>Избранные товары</h2>
 
             <div className="favorites-container">
-                {favorites.length > 0 ? (
-                    favorites.map((product) => (
-                        <div className="favorite-card" key={product.productId}>
+                {wishlist.length > 0 ? (
+                    wishlist.map((product) => (
+                        <div className="favorite-card" key={product._id}>
                             <img
                                 src={product.productImageUrl}
-                                alt={product.productName}
+                                alt={product.productId.productName}
                                 className="favorite-image"
                             />
                             <div className="favorite-details">
-                                <h3>{product.productName}</h3>
-                                <p className="product-description">{product.description}</p>
+                                <h3>{product.productId.productName}</h3>
+                                <p className="product-description">{product.productId.description}</p>
                                 <div className="product-price">
                                     <span>{product.price} $</span>
                                     <button
                                         className="remove-btn"
-                                        onClick={() => handleRemoveFromWishlist(product.productId)}
+                                        onClick={() => removeFromWishlist(product._id)}
                                     >
                                         Удалить
                                     </button>

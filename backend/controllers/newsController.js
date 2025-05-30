@@ -1,9 +1,9 @@
-const { News } = require('../models');
+const { News } = require('../models'); 
 
 // Получить все новости
 exports.getAllNews = async (req, res) => {
   try {
-    const news = await News.findAll();
+    const news = await News.find().sort({ createdAt: -1 });
     res.json(news);
   } catch (err) {
     res.status(500).json({ error: 'Ошибка получения новостей' });
@@ -14,7 +14,7 @@ exports.getAllNews = async (req, res) => {
 exports.getNewsById = async (req, res) => {
   const { id } = req.params;
   try {
-    const newsItem = await News.findByPk(id);
+    const newsItem = await News.findById(id); 
     if (!newsItem) {
       return res.status(404).json({ error: 'Новость не найдена' });
     }
@@ -24,7 +24,6 @@ exports.getNewsById = async (req, res) => {
   }
 };
 
-// Добавить новость
 exports.addNews = async (req, res) => {
   const { title, category, author, date, image_url, content } = req.body;
   try {
@@ -40,11 +39,17 @@ exports.updateNews = async (req, res) => {
   const { id } = req.params;
   const { title, category, author, date, image_url, content } = req.body;
   try {
-    const newsItem = await News.findByPk(id);
+    const newsItem = await News.findById(id);
     if (!newsItem) {
       return res.status(404).json({ error: 'Новость не найдена' });
     }
-    await newsItem.update({ title, category, author, date, image_url, content });
+    newsItem.title = title;
+    newsItem.category = category;
+    newsItem.author = author;
+    newsItem.date = date;
+    newsItem.image_url = image_url;
+    newsItem.content = content;
+    await newsItem.save();  
     res.json(newsItem);
   } catch (err) {
     res.status(500).json({ error: 'Ошибка обновления новости' });
@@ -55,11 +60,11 @@ exports.updateNews = async (req, res) => {
 exports.deleteNews = async (req, res) => {
   const { id } = req.params;
   try {
-    const newsItem = await News.findByPk(id);
+    const newsItem = await News.findById(id);  
     if (!newsItem) {
       return res.status(404).json({ error: 'Новость не найдена' });
     }
-    await newsItem.destroy();
+    await newsItem.remove(); 
     res.json({ message: 'Новость успешно удалена' });
   } catch (err) {
     res.status(500).json({ error: 'Ошибка удаления новости' });

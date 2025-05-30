@@ -1,0 +1,23 @@
+.order-image {
+  border-radius: 0.75rem; /* rounded-xl */
+  height: 5rem;            /* h-20 */
+  margin-left: 0;          /* по умолчанию */
+
+  /* md:ml-3 (отступ слева на больших экранах) */
+}
+
+@media (min-width: 768px) {
+  .order-image {
+    margin-left: 0.75rem;  /* ml-3 */
+  }
+}
+
+.status-button {
+  color: white;
+  padding: 0.25rem 0.5rem;       /* py-1 px-2 */
+  border-radius: 1rem;           /* rounded-2xl */
+  font-size: 1rem;               /* text-md */
+  text-transform: capitalize;
+  border: none;
+  cursor: default;
+}

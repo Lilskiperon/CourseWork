@@ -1,36 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Packaging = require('./Packaging');
+const mongoose = require('mongoose');
 
-const Flavor = sequelize.define('Flavor', {
-    flavorID: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    packagingId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Packaging,
-            key: 'packagingId'
-        }
-    },
-    flavorName: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    stockQuantity: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-    lastUpdated: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    }
-}, {
-    tableName: 'flavor',
-    timestamps: false,
-});
+
+const flavorSchema = new mongoose.Schema({
+    packagingId: {  type: mongoose.Schema.Types.ObjectId,  ref: 'Packaging', required: true },
+    flavorName: { type: String, required: false  },
+    stockQuantity: { type: Number, required: false },
+}, { timestamps: true });
+
+const Flavor = mongoose.model('Flavor', flavorSchema);
 
 module.exports = Flavor;

@@ -1,36 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Подключение к БД
-const Product = require('./Product'); // Подключаем модель продукта
+const mongoose = require('mongoose');
 
-const Packaging = sequelize.define('Packaging', {
-    packagingId: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    productId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Product,
-            key: 'productId'
-        }
-    },
-    productImageUrl: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    weight: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    price: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    }
-}, {
-    tableName: 'packaging',
-    timestamps: false
-});
+const packagingSchema = new mongoose.Schema({
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    productImageUrl: { type: String, required: true },
+    weight: { type: Number, required: true },
+    price: { type: Number, required: true }
+}, { timestamps: true });
+
+const Packaging = mongoose.model('Packaging', packagingSchema);
 
 module.exports = Packaging;

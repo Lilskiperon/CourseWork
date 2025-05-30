@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import './CatalogPage.css';
 import { getBrands } from '../api/brands';
@@ -9,16 +9,17 @@ const Catalog = () => {
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(1); 
   const [hasMore, setHasMore] = useState(true);
-  const [loadCount, setLoadCount] = useState(10);
+
   const [filters, setFilters] = useState({
     brand: searchParams.get('brand') ? searchParams.get('brand').split(',') : [],
     category: searchParams.get('category') || '',
     priceMin: searchParams.get('priceMin') || '',
     priceMax: searchParams.get('priceMax') || '',
-    sortField: searchParams.get('sortField') || '',
+    sortField: searchParams.get('sortField') || 'price',
     sortOrder: searchParams.get('sortOrder') || 'asc',
+    limit: searchParams.get('limit')|| '10',
+    page: parseInt(searchParams.get('page')) || 1,
   });
   useEffect(() => {
     setFilters({
@@ -26,8 +27,10 @@ const Catalog = () => {
       category: searchParams.get('category') || '',
       priceMin: searchParams.get('priceMin') || '',
       priceMax: searchParams.get('priceMax') || '',
-      sortField: searchParams.get('sortField') || '',
+      sortField: searchParams.get('sortField') || 'price',
       sortOrder: searchParams.get('sortOrder') || 'asc',
+      limit: searchParams.get('limit')|| '10',
+      page: parseInt(searchParams.get('page')) || '1',
     });
   }, [searchParams]);
 
@@ -43,14 +46,10 @@ const Catalog = () => {
     fetchBrandsData();
   }, []);
 
-  const fetchProductsData = async (newPage = 1) => {
+  const fetchProductsData = async () => {
     try {
-      const data = await getProducts({ ...filters, page: newPage });
-      if (newPage === 1) {
-        setProducts(data.products);
-      } else {
-        setProducts((prev) => [...prev, ...data.products]);
-      }
+      const data = await getProducts({ ...filters});
+      setProducts([ ...data.products ]);
       setHasMore(data.hasMore); 
     } catch (error) {
       console.error('Ошибка при загрузке продуктов:', error);
@@ -58,17 +57,8 @@ const Catalog = () => {
   };
 
   useEffect(() => {
-    fetchProductsData(1);
-    setPage(1); 
+    fetchProductsData(filters.page);
   }, [filters]);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
   
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -79,19 +69,23 @@ const Catalog = () => {
       return { ...prev, brand: updatedBrands };
     });
   };
-  const handleLimitChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      setLoadCount(value);
-    }
-  };
 
-  const loadMoreProducts = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    fetchProductsData(nextPage);
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+  
 
+
+  const loadProducts = () => {
+    setFilters((prev) => ({
+      ...prev,
+      page: prev.page + 1, // Increment the page number
+    }));
+  };
   useEffect(() => {
     const params = { ...filters };
     if (Array.isArray(params.brand)) {
@@ -108,15 +102,15 @@ const Catalog = () => {
       <aside className="filters">
         <div className="filter-group">
           <h3>Бренды</h3>
-          {brands.map((product) => (
-            <label key={product.brand} className="filter-item">
+          {brands.map((brand) => (
+            <label key={brand} className="filter-item">
               <input
                 type="checkbox"
-                value={product.brand}
-                checked={filters.brand.includes(product.brand)}
+                value={brand}
+                checked={filters.brand?.includes(brand)}
                 onChange={handleCheckboxChange}
               />
-              <span>{product.brand}</span>
+              <span>{brand}</span>
             </label>
           ))}
         </div>
@@ -177,8 +171,9 @@ const Catalog = () => {
         <div className="filter-group">
           <h3>Количество отображаемого товара</h3>
           <select
-            value={loadCount}
-            onChange={handleLimitChange}
+            name="limit"
+            value={filters.limit}
+            onChange={handleFilterChange}
             className="filter-select"
           >
             <option value="10">10</option>
@@ -192,7 +187,7 @@ const Catalog = () => {
           {products.length > 0 ? (
             <>
               {products.map((product) => (
-                <CardProduct key={product.productId} product={product} />
+                <CardProduct key={product._id} product={product} />
               ))}
 
             </>
@@ -202,7 +197,7 @@ const Catalog = () => {
         </main>
         {hasMore && (
           <div className="button-container">
-            <button onClick={loadMoreProducts} className="load-more-button">
+            <button onClick={loadProducts} className="load-more-button">
               Загрузить ещё
             </button>
           </div>

@@ -1,10 +1,13 @@
-import { BrowserRouter, Routes, Route,} from 'react-router-dom';
-import React from 'react';
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
-import { CartProvider } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext';
-
+/* eslint-disable react/prop-types */
+import { createBrowserRouter, RouterProvider} from 'react-router-dom';
+import { useEffect } from "react";
+import Header from "./layout/Header";
+import Footer from "./layout/Footer";
+import Loader from "./components/LoaderComponent";
+import { useUserStore } from "./stores/useUserStore";
+import { useCartStore } from "./stores/useCartStore";
+import { Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import {
     Home,
     FavoriteProductsPage,
@@ -18,36 +21,89 @@ import {
     OrderProcessPage,
     CartPage,
 } from './pages';
+import DashboardPage from './pages/admin/Dashboard';
+import OrdersPage from './pages/admin/Orders';
+import AdminLayout from './layout/admin/AdminLayout';
 
 function App() {
-  return (
-    <AuthProvider>
-      <CartProvider>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-              <Route path="/" element={<Home/> } />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/favorites" element={<FavoriteProductsPage />} />
-              <Route path="/compare" element={<CompareProductsPage />} />
-              <Route path="/catalog" element={<CatalogPage />} />
-              <Route path="/news/:id" element={<NewsPage />} />
-              <Route path="/product/:id"element={<ProductPage/>} />
-              <Route path="/profile" element={<ProfilePage/>}/>
-              <Route path="/order-process" element={<OrderProcessPage/>}/>
-              <Route path="/cart" element={<CartPage/>}/>
-              <Route path="*" element={<div>Страница не найдена</div>} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </CartProvider>
-    </AuthProvider>
-  );
+  const { user, checkAuth, checkingAuth } = useUserStore();
+  const { getCartItems, getComparison,getWishlist } = useCartStore();
+  useEffect(() => {
+    if (!user && !checkingAuth) {
+      checkAuth();
+    }
+  },[checkAuth, checkingAuth, user]);
+
+  useEffect(() => {
+		if (!user) return;
+    getWishlist();
+    getComparison();
+		getCartItems();
+	}, [getCartItems,getComparison,getWishlist, user]);
+  
+  if(checkingAuth){
+    return <Loader/>;
+  }
+   return <AppRouter />;
 }
 
+
+  function AppLayout() {
+    return (
+        <>
+            <Header />
+             <Outlet />
+            <Footer />
+        </>
+    );
+}
+
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <AppLayout />,
+        children: [
+            { index: true, element: <Home /> },
+            { path: "login", element: <LoginPage /> },
+            { path: "register", element: <RegisterPage /> },
+            { path: "favorites", element: <FavoriteProductsPage /> },
+            { path: "compare", element: <CompareProductsPage /> },
+            { path: "catalog", element: <CatalogPage /> },
+            { path: "news/:id", element: <NewsPage /> },
+            { path: "product/:productId", element: <ProductPage /> },
+            { path: "profile", element: <ProfilePage /> },
+            { path: "order-process", element: <OrderProcessPage /> },
+            { path: "cart", element: <CartPage /> },
+            { path: "*", element: <div>Страница не найдена</div> },
+        ],
+    },
+    {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+            {
+                index: true,
+                element: <DashboardPage />,
+            },
+            {path: "orders", element: <OrdersPage />},
+            {path: "products", element: <div>Products</div>},
+            {path: "customers", element: <div>Customers</div>},
+            // добавь сюда другие admin-страницы, если есть
+        ],
+    },
+]);
+
+
+  function AppRouter() {
+    return (
+        <>
+            <RouterProvider router={router} />
+            <Toaster />
+        </>
+    );
+  }
+
+
+
 export default App;
-        // <Route path="/catalog" component={Catalog} />
-        // <Route path="/catalog/:id" render={() => <ProductCard/>}/>
-        // <Route path="/servise" component={Servise} />
-        // <Route path="/about" component={About} />

@@ -1,0 +1,119 @@
+/* header.css */
+.header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0 1rem;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.header.dark {
+    background-color: #1e293b; /* dark background */
+}
+
+.header .header-left {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.header .header-left .btn-ghost {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.header .header-left .input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.header .header-left .input input {
+    width: 100%;
+    background: transparent;
+    color: #1e293b; /* text color */
+    border: none;
+    outline: none;
+    padding: 0.25rem;
+    font-size: 1rem;
+}
+
+.header .header-left .input input::placeholder {
+    color: #94a3b8; /* placeholder color */
+}
+
+.header .header-left .input input:focus {
+    color: #1e293b; /* text color when focused */
+}
+
+.header .header-right {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.header .header-right .btn-ghost {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.header .header-right .btn-ghost .icon {
+    font-size: 1.25rem;
+    color: #94a3b8; /* icon color */
+}
+
+.header .header-right .btn-ghost .icon.sun {
+    display: none;
+}
+
+.header .header-right .btn-ghost .icon.moon {
+    display: block;
+}
+
+.header .header-right .profile-img {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.header .header-right .profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.header.dark .header-left .input input {
+    color: #e2e8f0; /* text color in dark mode */
+}
+
+.header.dark .header-left .input input::placeholder {
+    color: #a0aec0; /* placeholder color in dark mode */
+}
+
+.header.dark .header-right .btn-ghost .icon {
+    color: #e2e8f0; /* icon color in dark mode */
+}
+
+.header.dark .header-right .btn-ghost .icon.sun {
+    display: block;
+}
+
+.header.dark .header-right .btn-ghost .icon.moon {
+    display: none;
+}

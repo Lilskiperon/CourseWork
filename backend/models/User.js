@@ -1,74 +1,58 @@
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const DataTypes = require('sequelize');
-const sequelize = require('../config/database');
 
-const User = sequelize.define('User', {
-    userId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    shoppingCartId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    username: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true,
+const userSchema = new mongoose.Schema({
+    sessionId: { type: String, unique: true, required: true },
+    username: { type: String,  default: null },
+    email: { type: String, match: [/^\S+@\S+\.\S+/, 'Please use a valid email address'],default: null },
+    password: { type: String,  minlength: 8, default: null},
+    firstName: { type: String, default: null },
+    lastName: { type: String,default: null },
+    phone: { type: String, match: [/^[0-9]+$/, 'Please use a valid phone number'] },
+    isGuest: { type: Boolean, default: true },
+    cartItems: [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Flavor",
+            },
+            quantity: {
+                type: Number,
+                default: 1,
+            }, 
         },
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            len: [8, 100], 
+    ],
+    wishlist: [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Packaging",
+            },
         },
-    },
-    firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    lastName: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    phone: {
-        type: DataTypes.STRING,
-        validate: {
-            is: /^[0-9]+$/,
+    ],
+    comparison: [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Packaging",
+            },
         },
-        allowNull: true,
-    },
-    createdUser: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
-    updatedUser: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+    ],
+    expiresAt: { type: Date, default: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), index: { expires: "7d" } }
+},{ timestamps: true });
+
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
+        const hashedPassword = await bcrypt.hash(this.password, 10);
+        this.password = hashedPassword;
     }
-}, {
-    tableName: 'user',
-    timestamps: false,
-    hooks: {
-        // Хук для хеширования пароля перед сохранением пользователя
-        beforeCreate: async (user) => {
-            if (user.password) {
-                const hashedPassword = await bcrypt.hash(user.password, 10);
-                user.password = hashedPassword;
-            }
-        },
-    },
+    next();
 });
-User.prototype.comparePassword = async function (inputPassword) {
+
+userSchema.methods.comparePassword = async function(inputPassword) {
     return await bcrypt.compare(inputPassword, this.password);
 };
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

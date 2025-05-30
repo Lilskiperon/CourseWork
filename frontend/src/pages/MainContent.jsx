@@ -1,12 +1,25 @@
-import React, { useState,useEffect } from 'react';
+import { useState,useEffect,useRef } from 'react';
 import ProductCarousel from '../components/ProductCarousel';
 import { getNewArrivals, getRecommendations } from '../api/products';
 import { getNews } from '../api/news';
+import { motion, useInView } from "framer-motion";
 function MainContent() {
     const [newArrivals, setNewArrivals] = useState([]);
     const [recommendations, setRecommendations] = useState([]);
     const [news, setNews] = useState([]);
-    
+    const [hasAnimated, setHasAnimated] = useState({
+      section1: false,
+      section2: false,
+      section3: false,
+  });
+    const ref1 = useRef(null);
+    const ref2 = useRef(null);
+    const ref3 = useRef(null);
+  
+    const isInView1 = useInView(ref1, { triggerOnce: true,margin:"-200px"});
+    const isInView2 = useInView(ref2, { triggerOnce: true,margin:"-200px"});
+    const isInView3 = useInView(ref3, { triggerOnce: true,margin:"-200px"});
+  
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -28,12 +41,22 @@ function MainContent() {
     
         fetchData();
     }, []);
-
+    useEffect(() => {
+      if (isInView1 && !hasAnimated.section1) {
+          setHasAnimated((prev) => ({ ...prev, section1: true }));
+      }
+      if (isInView2 && !hasAnimated.section2) {
+          setHasAnimated((prev) => ({ ...prev, section2: true }));
+      }
+      if (isInView3 && !hasAnimated.section3) {
+          setHasAnimated((prev) => ({ ...prev, section3: true }));
+      }
+    }, [isInView1, isInView2, isInView3, hasAnimated]);
     return (
-        <div>
+        <div className="content">
             {/* Telegram Section */}
             <section className="telegram-section">
-                <div className="content">
+                <div className="telegram-content">
                     <div className="text-block">
                         <h2>Присоединяйтесь<br/> к нашему сообществу<br/> в Телеграмм!</h2>
                         <p>
@@ -54,14 +77,32 @@ function MainContent() {
             </section>
 
             {/* Recommendation Section */}
-            <ProductCarousel title="НГМасса рекомендует" products={recommendations} itemType="product" />
-
+            <motion.div
+              ref={ref1}
+              initial={{ opacity: 0, x: 100 }}
+              animate={hasAnimated.section1 ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+            >
+                <ProductCarousel title="НГМасса рекомендует" products={recommendations} itemType="product" />
+            </motion.div>   
             {/* Novelty Section */}
-            <ProductCarousel title="Новинки" products={newArrivals} itemType="product" />
-            
+            <motion.div
+              ref={ref2}
+              initial={{ opacity: 0, x: -100 }}
+              animate={hasAnimated.section2 ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+            >
+                <ProductCarousel title="Новинки" products={newArrivals} itemType="product" />
+            </motion.div> 
             {/* News Section */}
-            <ProductCarousel title="Новости" products={news} itemType="news" />
-
+            <motion.div
+              ref={ref3}
+              initial={{ opacity: 0, x: 100 }}
+              animate={hasAnimated.section3 ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+            >
+                <ProductCarousel title="Новости" products={news} itemType="news" />
+            </motion.div> 
             {/* Subscription Section */}
             <div className="subscription-section">
                 <div className="subscription-content">
@@ -71,8 +112,8 @@ function MainContent() {
                   <button className="subscribe-button">Подписаться</button>
                 </div>
                 <img src="/assets/img/muscle-man2.png" alt="Muscle Man"></img>
-                </div>
             </div>
+        </div>
     );
 }
 
