@@ -3,8 +3,10 @@ import "./ProductPage.css";
 import QuantityControl from "../components/QuantityControl";
 import axios from "../lib/axios";
 import { useSearchParams, useLocation, useNavigate,useParams  } from "react-router-dom";
+import {useCartStore} from "../stores/useCartStore";
 
 const ProductPage = () => {
+  const { addToCart, cart } = useCartStore();
   const location = useLocation();
   const productState = location.state;
   const { productId } = useParams();
@@ -39,7 +41,7 @@ const ProductPage = () => {
             setProduct(res.data);
         })
         .catch((err) => {
-            console.error('Ошибка при загрузке продукта:', err);
+            console.error('Error loading product:', err);
             
         });
   }, [productId]);
@@ -96,7 +98,7 @@ const ProductPage = () => {
   return (
 
     <div className="product-page">
-      <div className="breadcrumbs">Главная / {product.category} / {product.productName}</div>
+      <div className="breadcrumbs">Home / {product.category} / {product.productName}</div>
       <div className="product-container">
         <div className="image-section">
           <img
@@ -109,26 +111,26 @@ const ProductPage = () => {
           <h1 className="product-title">{product.productName}</h1>
           <div className="horizontal_line"></div>
           <div className="brand-section">
-            <strong>Бренд:</strong> {product.brand}
+            <strong>Brand:</strong> {product.brand}
           </div>
           <div className="horizontal_line"></div>
           <div className="categories-section">
-            <strong>Категории:</strong> {product.category}
+            <strong>Categories:</strong> {product.category}
           </div>
           <div className="horizontal_line"></div>
           <div className="product-single-package_section">
-            <div className="product-info__name">Фасовка</div>
+            <div className="product-info__name">Packaging</div>
             <div className="product-single-packages">
               {packagings.map((packaging) => (
                 <button key={packaging._id} onClick={() => handlePackagingSelect(packaging._id)} className={`btn-select ${selectedPackaging === packaging._id ? "active" : ""}`}>
-                  {packaging.weight} грамм
+                  {packaging.weight} gram
                 </button>
               ))}
             </div>
           </div>
           <div className="horizontal_line"></div>
           <div className="product-single-attributes_section">
-            <div className="product-info__name">Ассортимент вкусов</div>
+            <div className="product-info__name">Range of flavors</div>
             <div className="product-single-attributes">
             {flavors.map((flavor) => (
                 <button key={flavor._id} onClick={() => handleFlavorSelect(flavor._id)} className={`btn-select ${selectedFlavor === flavor._id ? "active" : ""}`}>
@@ -145,13 +147,15 @@ const ProductPage = () => {
               onIncrease={handleIncreaseQuantity}
               onDecrease={handleDecreaseQuantity}
             />
-            <button className="add-to-cart-btn">В корзину</button>
+            <button className="add-to-cart-btn" onClick={(e) =>
+              e.stopPropagation() || addToCart(selectedFlavor, quantity)
+            }>Add to cart</button>
           </div>
           <div className="horizontal_line"></div>
           <div className="reviews">
-            <strong>Отзывы (0):</strong> Отзывов пока нет.
+            <strong>Reviews (0):</strong> No reviews yet.
             <p className="review-prompt">
-              Будьте первым, кто оставил отзыв на “Stanozolol 10mg/tab, 100tab”
+              Be the first to review “Stanozolol 10mg/tab, 100tab”
             </p>
           </div>
         </div>
@@ -163,39 +167,39 @@ const ProductPage = () => {
               <svg className="truck_svg">
                     <use href="/assets/svg/sprite-icons.svg#icon-truck"></use>
                   </svg>
-                  Доставка</h3>
+                  Delivery</h3>
               <div className="text_wr">
-                <p className="text semibold">по Киеву</p>
-                <p className="text">Оформляйте заказ и забирайте товар в магазинах в Киеве</p>
+                <p className="text semibold">in Kiev</p>
+                <p className="text">Place your order and pick up your goods at stores in Kiev</p>
               </div>
               <div className="info_delivery__addresses">
                 <span className="addresses_item">
                   <svg className="map_svg">
                     <use href="/assets/svg/sprite-icons.svg#icon-map"></use>
                   </svg>
-                  <a className="mapLink" href="//goo.gl/maps/t8G8CfFMtxQ2" rel="nofollow" target="_blank">Пр-т Мира, 2/3</a></span>
+                  <a className="mapLink" href="//goo.gl/maps/t8G8CfFMtxQ2" rel="nofollow" target="_blank">2/3 Mira Avenue</a></span>
                 <span className="addresses_item">
                   <svg className="map_svg">
                     <use href="/assets/svg/sprite-icons.svg#icon-map"></use>
                   </svg>
-                  <a className="mapLink" href="//goo.gl/maps/or8575rANuw" rel="nofollow" target="_blank">Площадь Оболонская, 1</a></span>
+                  <a className="mapLink" href="//goo.gl/maps/or8575rANuw" rel="nofollow" target="_blank">1 Obolonskaya Square</a></span>
                 <span className="addresses_item">
                   <svg className="map_svg">
                     <use href="/assets/svg/sprite-icons.svg#icon-map"></use>
                   </svg>
-                  <a className="mapLink" href="//goo.gl/maps/nbQ9vTY9Rvq" rel="nofollow" target="_blank">Пр-т Воздушных Сил, 7</a></span>
+                  <a className="mapLink" href="//goo.gl/maps/nbQ9vTY9Rvq" rel="nofollow" target="_blank">7 Air Force Avenue</a></span>
                 <span className="addresses_item">
                   <svg className="car_svg">
                     <use href="/assets/svg/sprite-icons.svg#icon-car"></use>
                   </svg>
-                  <p className="addresses_item addresses_item--car">Курьером по Киеву 65 грн</p>
+                  <p className="addresses_item addresses_item--car">Courier delivery in Kiev 5$</p>
                 </span>
               </div>
             </div>
             <div className="delivery-section">
               <div className="text_wr">
-                  <p className="text semibold">по Украине</p>
-                  <p className="text">Заказы оплаченные после 15:00 отправляются <b>на следующий день</b></p>
+                  <p className="text semibold">across Ukraine</p>
+                  <p className="text">Orders paid after 3 p.m. are shipped <b>the next day</b></p>
                 </div>
                 <div className="text_wr_np">
                     <svg className="np_svg">
@@ -204,9 +208,9 @@ const ProductPage = () => {
                     <div className="text_wr">
                         <p className="text">
                             <span className="semibold">
-                                Нова пошта от 60 грн</span>
+                                New mail from 6$</span>
                         </p>
-                        <p className="text">При оплате наложенным платежом отправка заказов в течении 1-2 дней</p>
+                        <p className="text">When paying by cash on delivery, orders are shipped within 1-2 days.</p>
                     </div>
                 </div>
                 <div className="text_wr_up">
@@ -216,10 +220,10 @@ const ProductPage = () => {
                     <div className="text_wr">
                         <p className="text">
                             <span className="semibold">
-                                Укрпошта от 29 грн</span>
+                                Ukrposhta from 2$</span>
                         </p>
-                        <p className="text">Только для оплаченных заказов.<br />Оплата считается произведённой в момент зачисления денежных средств на банковский счёт продавца</p>
-                        <p className="text delivery_check_terms_link js_simple_popup_link" data-content="324">Правила проверки комплектации и сохранности товара при получении заказа</p>
+                        <p className="text">Only for paid orders.<br />Payment is considered to have been made at the moment the funds are credited to the seller's bank account.</p>
+                        <p className="text delivery_check_terms_link js_simple_popup_link" data-content="324">Rules for checking the completeness and condition of goods upon receipt of an order</p>
                     </div>
                 </div>
                 </div>

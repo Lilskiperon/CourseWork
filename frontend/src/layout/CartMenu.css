@@ -120,6 +120,7 @@
     font-size: 18px;
     color: #BB9B75;
   }
+  
   .delete-btn{
     margin-right: 5px;
     width:14px;
@@ -127,6 +128,7 @@
     height: 14px;
     transition: transform 0.3s ease, fill 0.3s ease;
   }
+
   .delete-btn:hover {
     transform: rotate(90deg); 
   }

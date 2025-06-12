@@ -22,7 +22,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const app = express();
 
 app.use(cors({
-    origin:  ['http://26.84.9.17:5173', 'http://localhost:5173'],
+    origin:  ['http://26.112.27.74:5173', 'http://localhost:5173'],
     credentials: true,
     exposedHeaders: ['set-cookie'],
 }));
@@ -50,7 +50,7 @@ app.use("/api/payments", paymentRoutes);
 
 // Запуск сервера
 const PORT = process.env.PORT || 5000;
-app.listen(PORT,'26.84.9.17', async () => {
+app.listen(PORT,'26.112.27.74', async () => {
     console.log(`Сервер запущен на порту ${PORT}`);
     await connectDB(); // Подключаемся к MongoDB
 });

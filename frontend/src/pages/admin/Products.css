@@ -1,21 +1,22 @@
 /* src/pages/admin/Products.css */
 .admin-container {
-  padding: 2rem;
-  font-family: 'Inter', sans-serif;
-  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
-.admin-title {
+
+.admin-container .admin-title {
   font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: 1rem;
 }
-.toolbar {
+.admin-container .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
-.search-input {
+.admin-container .search-input {
   flex: 1;
   max-width: 300px;
   padding: 0.5rem 1rem;
@@ -23,91 +24,91 @@
   border-radius: 0.375rem;
   font-size: 0.875rem;
 }
-.btn {
+.admin-container .btn {
   cursor: pointer;
   border: none;
   border-radius: 0.375rem;
   font-size: 0.875rem;
   transition: background-color 0.2s;
 }
-.add-btn {
+.admin-container .add-btn {
   background-color: #4f46e5;
   color: #fff;
   padding: 0.5rem 1rem;
 }
-.add-btn:hover {
+.admin-container .add-btn:hover {
   background-color: #4338ca;
 }
-.products-table {
+.admin-container .products-table {
   width: 100%;
   border-collapse: collapse;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   margin-bottom: 1rem;
 }
-.products-table th,
-.products-table td {
+.admin-container .products-table th,
+.admin-container .products-table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
 }
-.products-table th {
+.admin-container .products-table th {
   background-color: #f9fafb;
   font-weight: 500;
 }
-.product-row:nth-child(even) {
+.admin-container .product-row:nth-child(even) {
   background-color: #f9fafb;
 }
-.pack-details summary {
+.admin-container .pack-details summary {
   cursor: pointer;
   padding: 0.5rem;
   background-color: #eef2ff;
   border-radius: 0.25rem;
   font-weight: 500;
 }
-.flavors-list {
+.admin-container .flavors-list {
   margin: 0.5rem 0 0 1rem;
   list-style: disc inside;
   font-size: 0.875rem;
 }
-.edit-btn {
+.admin-container .edit-btn {
   background-color: #fbbf24;
   color: #1f2937;
   padding: 0.25rem 0.5rem;
 }
-.edit-btn:hover {
+.admin-container .edit-btn:hover {
   background-color: #f59e0b;
 }
-.delete-btn {
+.admin-container .delete-btn {
   background-color: #ef4444;
   color: #fff;
   padding: 0.25rem 0.5rem;
   margin-left: 0.5rem;
 }
-.delete-btn:hover {
+.admin-container .delete-btn:hover {
   background-color: #dc2626;
 }
-.pagination {
+.admin-container .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
 }
-.pagination button {
+.admin-container .pagination button {
   background-color: #e5e7eb;
   color: #1f2937;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   transition: background-color 0.2s;
 }
-.pagination button:disabled {
+.admin-container .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-.pagination span {
+.admin-container .pagination span {
   font-size: 0.875rem;
   font-weight: 500;
 }
-.modal-overlay {
+.admin-container .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -119,7 +120,7 @@
   align-items: center;
   z-index: 1000;
 }
-.modal-content {
+.admin-container .modal-content {
   background: #fff;
   padding: 2rem;
   border-radius: 0.5rem;
@@ -127,18 +128,18 @@
   max-width: 500px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
-.modal-form {
+.admin-container .modal-form {
   display: grid;
   gap: 1rem;
   margin-top: 1rem;
 }
-.modal-form input {
+.admin-container .modal-form input {
   padding: 0.5rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
   font-size: 0.875rem;
 }
-.modal-buttons {
+.admin-container .modal-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;

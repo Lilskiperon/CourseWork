@@ -54,7 +54,7 @@ const CartPage = () => {
           >
             <p>1</p>
           </span>
-          Корзина
+          Basket
         </div>
         <div className="step-content">
           <span
@@ -62,7 +62,7 @@ const CartPage = () => {
           >
             <p>2</p>
           </span>
-          Адрес доставки
+          Delivery address
         </div>
         <div className="step-content">
           <span
@@ -70,7 +70,7 @@ const CartPage = () => {
           >
             <p>3</p>
           </span>
-          Заказ готов
+          Order ready
         </div>
       </div>
       {/* Tab Content */}

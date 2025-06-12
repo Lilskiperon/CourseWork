@@ -22,7 +22,7 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Пароли не совпадают!");
+      alert("Passwords do not match!");
       return;
     }
     const formData = {
@@ -40,31 +40,31 @@ function RegisterPage() {
 
   return (
     <div className="auth-block">
-      <h1>РЕГИСТРАЦИЯ</h1>
+      <h1>REGISTRATION</h1>
         <p>
-        Уже есть аккаунт?{" "}
+        Already have an account?{" "}
         <Link to="/login" className="auth-link">
-          Войдите
+          Log in
         </Link>
         </p>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Ваша почта</label>
+          <label>Your mail</label>
           <input
             type="email"
             value={email}
-            placeholder="Введите e-mail"
+            placeholder="Enter e-mail"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           </div>
         <div className="form-group">
-          <label>Пароль</label>
+          <label>Password</label>
           <div className="password-container">
             <input
               type={passwordVisible ? "text" : "password"}
               value={password}
-              placeholder="Введите ваш пароль"
+              placeholder="Enter your password"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -79,51 +79,51 @@ function RegisterPage() {
           </div>
           </div>
         <div className="form-group">
-        <label>Повторите пароль</label>
+        <label>Repeat password</label>
         <input
           type="password"
           value={confirmPassword}
-          placeholder="Повторите пароль"
+          placeholder="Repeat password"
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
 
         </div>
         <div className="form-group">
-        <label>Имя</label>
+        <label>Name</label>
         <input
           type="text"
           value={firstName}
-          placeholder="Имя"
+          placeholder="Name"
           onChange={(e) => setFirstName(e.target.value)}
         />
       </div>
         <div className="form-group">
-        <label>Фамилия</label>
+        <label>Last name</label>
         <input
           type="text"
           value={lastName}
-          placeholder="Фамилия"
+          placeholder="Last name"
           onChange={(e) => setLastName(e.target.value)}
         />
       </div>
         <div className="form-group">
-        <label>Ваш телефон</label>
+        <label>Your phone</label>
         <input
           type="tel"
           value={phone} 
-          placeholder="Ваш телефон"
+          placeholder="Your phone"
           onChange={(e) => setPhone(e.target.value)}
         />
         </div>
         <div className="submit-btn">
           <button type="submit" disabled={loading}>
-            {loading ? "Загрузка..." : "Зарегистрироваться"}
+            {loading ? "Download..." : "Sign up"}
         </button></div>
       </form>
       
     <div className="horizontal_line" ></div>
-    <h4>Вход в один клик:</h4>
+    <h4>One-click login:</h4>
       <div className="social-icons">
             <a href="#" className="social-icon fb">
                 <svg className="svgicon">

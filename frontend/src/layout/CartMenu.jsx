@@ -39,9 +39,9 @@ const CartMenu = ({ isVisible, onClose }) => {
     <div className={`cart-menu-wrapper ${isVisible ? "visible" : ""}`}>
       <div ref={cartRef} className="cart-menu">
         <div className="card-header">
-          <h1>Товары</h1>
+          <h1>Goods</h1>
           <span onClick={onClose}>
-            Закрыть
+            Close
             <svg className="svgicon">
               <use href="/assets/svg/sprite-icons.svg#icon-close"></use>
             </svg>
@@ -86,11 +86,11 @@ const CartMenu = ({ isVisible, onClose }) => {
         </div>
         <div className="horizontal_line"></div>
         <div className="total">
-          <h1>Подытог</h1>
+          <h1>Summary</h1>
           <h1>{total} $</h1>
         </div>
         <Link to="/cart" onClick={onClose} className="checkout-btn">
-          Перейти к оформлению заказа
+          Proceed to checkout
         </Link>
       </div>
     </div>

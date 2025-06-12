@@ -21,19 +21,19 @@ function LoginPage() {
 
   return (
     <div className="auth-block">
-      <h1>ВХОД</h1>
+      <h1>ENTRANCE</h1>
       <p>
-        Нет аккаунта?{" "}
+        Don't have an account?{" "}
         <Link to="/register" className="auth-link">
-          Зарегистрируйтесь
+          Sign up
         </Link>
       </p>
       <form onSubmit={handleLogin}>
         <div className="form-group">
-          <label>Ваша почта</label>
+          <label>Your mail</label>
           <input
             type="email"
-            placeholder="Введите e-mail"
+            placeholder="Enter your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -41,10 +41,10 @@ function LoginPage() {
 
         </div>
         <div className="form-group">
-          <label>Пароль</label>
+          <label>Password</label>
           <input
             type="password"
-            placeholder="Введите пароль"
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -57,18 +57,18 @@ function LoginPage() {
               checked={rememberMe}
               onChange={() => setRememberMe(!rememberMe)}
             />
-            <label htmlFor="remember">Запомнить меня</label>
+            <label htmlFor="remember">Remember me</label>
         </div>
         <div className="forgot-password">
-            <Link to="/forgot-password">Забыли пароль?</Link>
+            <Link to="/forgot-password">Forgot your password?</Link>
           </div>
         <div className="submit-btn">
-          <button type="submit">Войти</button>
+          <button type="submit">Log in</button>
         </div>
       </form>
 
       <div className="horizontal_line"></div>
-      <h4>Вход в один клик:</h4>
+      <h4>One-click login:</h4>
       <div className="social-icons">
         <a href="#" className="social-icon fb">
           <svg className="svgicon">

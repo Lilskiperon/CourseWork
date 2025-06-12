@@ -54,19 +54,19 @@ const DeliveryAddressComponent = () => {
 
     return(
         <>
-          <h2> <Package className="success-icon" />Адрес доставки</h2>
+          <h2> <Package className="success-icon" />Delivery address</h2>
           <div className="address-container">
             
            <div className="address-form-container">
-           <h3>Оплата и доставка</h3>
+           <h3>Payment and delivery</h3>
             <form onSubmit={handlePayment}>
 
               <div className="form-group">
-                <label>ФИО*</label>
+                <label>full name*</label>
                 <input
                   type="text"
                   name="fullName"
-                  placeholder="ФИО*"
+                  placeholder="full name*"
                   value={formDelivery.fullName}
                   onChange={handleChange}
                   required
@@ -74,19 +74,19 @@ const DeliveryAddressComponent = () => {
               </div>
 
               <div className="form-group">
-                <label>Страна/регион*</label>
+                <label>Country/region*</label>
                 <select
                   name="country"
                   value={formDelivery.country}
                   onChange={handleChange}
                   required
                 >
-                  <option value="Россия">Украина</option>
-                  <option value="Украина">Румыния</option>
-                  <option value="Беларусь">Молдова</option>
-                  <option value="Словакия">Словакия</option>
-                  <option value="Венгрия">Венгрия</option>
-                  <option value="Польша">Польша</option>
+                  <option value="Ukraine">Ukraine</option>
+                  <option value="Romania">Romania</option>
+                  <option value="Moldova">Moldova</option>
+                  <option value="Slovakia">Slovakia</option>
+                  <option value="Hungary">Hungary</option>
+                  <option value="Poland">Poland</option>
                 </select>
               </div>
 
@@ -95,7 +95,7 @@ const DeliveryAddressComponent = () => {
                 <input
                   type="text"
                   name="region"
-                  placeholder="Область"
+                  placeholder="Region"
                   value={formDelivery.region}
                   onChange={handleChange}
                   required
@@ -103,11 +103,11 @@ const DeliveryAddressComponent = () => {
               </div>
 
               <div className="form-group">
-                <label>Город*</label>
+                <label>City*</label>
                 <input
                   type="text"
                   name="city"
-                  placeholder="Город"
+                  placeholder="City"
                   value={formDelivery.city}
                   onChange={handleChange}
                   required
@@ -115,11 +115,11 @@ const DeliveryAddressComponent = () => {
               </div>
 
               <div className="form-group">
-                <label>Индекс*</label>
+                <label>Index*</label>
                 <input
                   type="text"
                   name="postalCode"
-                  placeholder="Индекс"
+                  placeholder="Index"
                   value={formDelivery.postalCode}
                   onChange={handleChange}
                   required
@@ -127,38 +127,38 @@ const DeliveryAddressComponent = () => {
               </div>
 
               <div className="form-group">
-                <label>Улица, номер дома, квартира</label>
+                <label>Street, house number, apartment</label>
                 <input
                   type="text"
                   name="address"
-                  placeholder="Улица, номер дома, квартира"
+                  placeholder="Street, house number, apartment"
                   value={formDelivery.address}
                   onChange={handleChange}
                 />
               </div>
 
               <div className="form-group">
-                <label>Примечание (необязательно)</label>
+                <label>Note (optional)</label>
                 <textarea
                   name="notes"
-                  placeholder="Напишите, если есть особые инструкции"
+                  placeholder="Please write if there are any special instructions."
                   value={formDelivery.notes}
                   onChange={handleChange}
                 />
               </div>
 
               <button type="submit" className="apply-order">
-                Подтвердить заказ
+                Confirm order
               </button>
             </form>
         </div>
         <div className="cart-summary">
-          <h3>Ваш Заказ</h3>
+          <h3>Your Order</h3>
           <div className="cart-items">
             <div className="cart-item">
               <div className="cart-item-details">
-                <span className="cart-item-header">Товар</span>
-                <span className="cart-item-header">Сумма</span>
+                <span className="cart-item-header">Goods</span>
+                <span className="cart-item-header">Amount</span>
               </div> 
               {cart.map((product, index) => (
                   <div key={index} className="cart-item-details">
@@ -169,7 +169,7 @@ const DeliveryAddressComponent = () => {
                   </div>  
               ))}
               <div className="cart-item-details">
-                <p className="cart-item-header">Всего</p>
+                <p className="cart-item-header">Total</p>
                 <p className="cart-item-price">{total.toFixed(2)} $</p>
               </div>
             </div>

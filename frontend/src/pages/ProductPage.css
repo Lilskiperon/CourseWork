@@ -1,7 +1,6 @@
 .product-page {
   max-width: 1381px;
   margin: 20px auto;
-
   background: #fff;
 }
 
@@ -78,17 +77,17 @@
 }
 
 .add-to-cart-btn {
-  background: #2a9d8f;
+  background: #BB9B75;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 15px 25px;
   cursor: pointer;
   border-radius: 4px;
   transition: background 0.3s;
 }
 
 .add-to-cart-btn:hover {
-  background: #21867a;
+  background: #b68d5f;
 }
 
 

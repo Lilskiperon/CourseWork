@@ -26,7 +26,7 @@ exports.checkOrCreateGuest = async (req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName});
     } catch (error) {
-        console.error("Ошибка создания гостя:", error);
+        console.error("Guest creation error:", error);
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -69,10 +69,10 @@ exports.signupUser = async (req, res) => {
     try {
         let sessionId = req.cookies.NgMassa;
         const { email, password, firstName, lastName, phone } = req.body;
-        console.log('Полученные данные:', {email, password, firstName, lastName, phone });
+        console.log('Data obtained:', {email, password, firstName, lastName, phone });
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ error: "Email уже зарегистрирован!" });
+            return res.status(400).json({ error: "Email already registered!" });
         }
 
         let user = await User.findOne({ sessionId });
@@ -86,7 +86,7 @@ exports.signupUser = async (req, res) => {
         user.isGuest = false; 
         await user.save();
 
-        res.status(201).json({ message: "Регистрация успешна!", user: {  
+        res.status(201).json({ message: "Registration successful!", user: {  
                 _id: user._id,
 				email: user.email,
 				isGuest: user.isGuest,
@@ -95,19 +95,19 @@ exports.signupUser = async (req, res) => {
                 lastName: user.lastName
              } });
     } catch (error) {
-        console.error("Ошибка регистрации пользователя:", error);
-        res.status(500).json({ error: "Ошибка сервера. Попробуйте снова." });
+        console.error("User registration error:", error);
+        res.status(500).json({ error: "Server error. Please try again.." });
     }
 };
 
 exports.loginUser = async (req, res) => {
     const { email, password, rememberMe } = req.body;
-    console.log('Полученные данные:', { email, password, rememberMe });
+    console.log('Data obtained:', { email, password, rememberMe });
     try {
         const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: 'Пользователь не найден' });
+        if (!user) return res.status(400).json({ message: 'User not found' });
         const isPasswordCorrect = await user.comparePassword(password);
-        if (!isPasswordCorrect) return res.status(400).json({ message: 'Неверный пароль' });
+        if (!isPasswordCorrect) return res.status(400).json({ message: 'Incorrect password' });
         
         const guestSessionId = req.cookies.NgMassa;
         if (guestSessionId) {
@@ -133,7 +133,7 @@ exports.loginUser = async (req, res) => {
         const { accessToken, refreshToken } = generateTokens(user._id);
 	    await storeRefreshToken(user._id, refreshToken);
 	    setCookies(res, accessToken, refreshToken);
-        res.json({ message: 'Успешный вход',
+        res.json({ message: 'Successful login',
                 _id: user._id,
 				email: user.email,
 				isGuest: user.isGuest,
@@ -143,15 +143,15 @@ exports.loginUser = async (req, res) => {
             });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Ошибка сервера' });
+      res.status(500).json({ message: 'Server error' });
     }
 };
 exports.logoutUser = (req, res) => {
     try {
         res.clearCookie('authToken', { httpOnly: true, sameSite: 'Lax' }); 
-        return res.json({ message: 'Вы успешно вышли из системы' });
+        return res.json({ message: 'You have successfully logged out of the system.' });
     } catch (error) {
-        return res.status(500).json({ message: 'Ошибка при выходе', error });
+        return res.status(500).json({ message: 'Error on exit', error });
     }
 };
 

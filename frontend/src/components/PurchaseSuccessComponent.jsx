@@ -34,7 +34,7 @@ const PurchaseSuccessComponent = () => {
         const response = await axios.post('/flavors/products', { products });
         return response.data;
       } catch (error) {
-        console.error('Ошибка при получении продуктов:', error.response?.data || error.message);
+        console.error('Error receiving products:', error.response?.data || error.message);
         return null;
       }
     };
@@ -60,22 +60,22 @@ const PurchaseSuccessComponent = () => {
         numberOfPieces={700}
         recycle={false}
       />
-        <h2><CheckCircle className="success-icon" /> Ваш заказ был принят</h2>
+        <h2><CheckCircle className="success-icon" /> Your order has been accepted.</h2>
 
           <table className="order-summary">
             <tbody>
             <tr className="order-row">
-              <td><span>Номер заказа:&nbsp;</span> <p>{orderData.orderNumber}</p></td>
-              <td><span>Дата:&nbsp;</span><p>{new Date(orderData.orderDate).toLocaleDateString()}</p></td>
-              <td><span>Итого:&nbsp;</span><p>{orderData.totalAmount.toFixed(2)} $</p></td>
+              <td><span>Order number:&nbsp;</span> <p>{orderData.orderNumber}</p></td>
+              <td><span>Date:&nbsp;</span><p>{new Date(orderData.orderDate).toLocaleDateString()}</p></td>
+              <td><span>Total:&nbsp;</span><p>{orderData.totalAmount.toFixed(2)} $</p></td>
             </tr>
             </tbody>
           </table>
 
           <div className="order-details">
-            <h3 className="details-title">ИНФОРМАЦИЯ О ЗАКАЗЕ</h3>
+            <h3 className="details-title">ORDER INFORMATION</h3>
             <div className="details-section">
-              <strong>ТОВАР</strong>
+              <strong>GOODS</strong>
               <strong></strong>
               {products.map((product, index) => (
                 <>
@@ -87,15 +87,15 @@ const PurchaseSuccessComponent = () => {
               ))}
             </div>
             <div className="details-section">
-              <strong>Доставка</strong>
-              <strong>по тарифам перевозчика</strong>
+              <strong>Delivery</strong>
+              <strong>at the carrier's rates</strong>
             </div>
             <div className="details-section">
-              <strong>Итого</strong>
+              <strong>Total</strong>
               <strong>{orderData.totalAmount.toFixed(2)} $</strong>
             </div>
             <Link to="/" className="continue-shopping-button">
-              Продолжить покупки <ArrowRight className="button-icon" />
+              Continue shopping <ArrowRight className="button-icon" />
             </Link>
           </div>
     </div>

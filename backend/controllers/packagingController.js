@@ -3,11 +3,11 @@ exports.getPackagings = async (req, res) => {
     try {
       const packagings = await Packaging.find().populate('productId');
       if (packagings.length === 0) {
-        return res.status(404).json({ error: 'Упаковки не найдены' });
+        return res.status(404).json({ error: 'Packages not found' });
       }
       res.json(packagings);
     } catch (error) {
-      res.status(500).json({ error: 'Ошибка получения упаковок' });
+      res.status(500).json({ error: 'Error receiving packages' });
     }
   };
   
@@ -16,11 +16,11 @@ exports.getPackagings = async (req, res) => {
     try {
       const packaging = await Packaging.findById(req.params.id).populate('productId');
       if (!packaging) {
-        return res.status(404).json({ error: 'Упаковка не найдена' });
+        return res.status(404).json({ error: 'Packaging not found' });
       }
       res.json(packaging);
     } catch (error) {
-      res.status(500).json({ error: 'Ошибка получения упаковки' });
+      res.status(500).json({ error: 'Package retrieval error' });
     }
   };
   
@@ -29,11 +29,11 @@ exports.getPackagings = async (req, res) => {
     try {
       const packagings = await Packaging.find({ productId: req.params.productId }).sort({ weight: 'ascending' });
       if (packagings.length === 0) {
-        return res.status(404).json({ error: 'Упаковки для этого продукта не найдены' });
+        return res.status(404).json({ error: 'No packaging found for this product' });
       }
       res.json(packagings);
     } catch (error) {
-      res.status(500).json({ error: 'Ошибка получения упаковок для продукта' });
+      res.status(500).json({ error: 'Error receiving packages for the product' });
     }
   };
   
@@ -45,7 +45,7 @@ exports.getPackagings = async (req, res) => {
       await newPackaging.save();
       res.status(201).json(newPackaging);
     } catch (error) {
-      res.status(500).json({ error: 'Ошибка создания упаковки' });
+      res.status(500).json({ error: 'Package creation error' });
     }
   };
   
@@ -54,7 +54,7 @@ exports.getPackagings = async (req, res) => {
     try {
       const packaging = await Packaging.findById(req.params.id);
       if (!packaging) {
-        return res.status(404).json({ error: 'Упаковка не найдена' });
+        return res.status(404).json({ error: 'Packaging not found' });
       }
       const { productId, size, price } = req.body;
       packaging.productId = productId || packaging.productId;
@@ -63,7 +63,7 @@ exports.getPackagings = async (req, res) => {
       await packaging.save();
       res.json(packaging);
     } catch (error) {
-      res.status(500).json({ error: 'Ошибка обновления упаковки' });
+      res.status(500).json({ error: 'Package update error' });
     }
   };
   
@@ -72,12 +72,12 @@ exports.getPackagings = async (req, res) => {
     try {
       const packaging = await Packaging.findById(req.params.id);
       if (!packaging) {
-        return res.status(404).json({ error: 'Упаковка не найдена' });
+        return res.status(404).json({ error: 'Packaging not found' });
       }
       await packaging.remove();
-      res.json({ message: 'Упаковка удалена' });
+      res.json({ message: 'Packaging removed' });
     } catch (error) {
-      res.status(500).json({ error: 'Ошибка удаления упаковки' });
+      res.status(500).json({ error: 'Package removal error' });
     }
   };
 // Получить новинки
@@ -87,7 +87,7 @@ exports.getNewArrivals = async (req, res) => {
           .sort({ createdAt: -1 })
       res.json(products);
   } catch (err) {
-      res.status(500).json({ error: 'Ошибка получения новинок' });
+      res.status(500).json({ error: 'Error receiving new items' });
   }
 };
 
@@ -98,7 +98,7 @@ exports.getRecommendations = async (req, res) => {
           .sort({ createdAt: 0 }) // Сортировка по возрастанию даты
       res.json(packaging);
   } catch (err) {
-      res.status(500).json({ error: 'Ошибка получения рекомендаций' });
+      res.status(500).json({ error: 'Error receiving recommendations' });
   }
 };
 
@@ -137,8 +137,8 @@ exports.getSearchProductsByParams = async (req, res) => {
 
       res.json({ products, hasMore });
   } catch (err) {
-      console.error('Ошибка фильтрации продуктов:', err);
-      res.status(500).json({ error: 'Ошибка фильтрации продуктов' });
+      console.error('Product filtering error:', err);
+      res.status(500).json({ error: 'Product filtering error' });
   }
 };
 
@@ -146,7 +146,7 @@ exports.getAllSearchProducts = async (req, res) => {
     const { query } = req.query;
 
     if (!query || query.trim() === '') {
-        return res.status(400).json({ error: 'Параметр query обязателен' });
+        return res.status(400).json({ error: 'The query parameter is required.' });
     }
 
     try {
@@ -163,7 +163,7 @@ exports.getAllSearchProducts = async (req, res) => {
 
         res.json(filteredPackagings);
     } catch (error) {
-        console.error('Ошибка при поиске упаковок:', error);
-        res.status(500).json({ error: 'Ошибка сервера' });
+        console.error('Error searching for packages:', error);
+        res.status(500).json({ error: 'Server error' });
     }
 };

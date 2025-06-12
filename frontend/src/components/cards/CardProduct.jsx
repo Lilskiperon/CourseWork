@@ -31,7 +31,7 @@ function CardProduct({ product }) {
                 const data = await getFlavors(product._id);
                 setFlavors(data);
             } catch (error) {
-                console.error('Ошибка загрузки вкусов:', error);
+                console.error('Flavor loading error:', error);
             }
         };
 
@@ -48,7 +48,7 @@ function CardProduct({ product }) {
         <div className="card-product" onClick={handleReadMore}>
             <img src={product.productImageUrl} alt={product.productId?.productName} />
             <div className="text-block">
-                <h3>{product.productId?.productName} <span>({product.weight} гр.)</span></h3>
+                <h3>{product.productId?.productName} <span>({product.weight} g.)</span></h3>
                 <p>{product.productId?.description}</p>
                 <div className="select-container" onClick={(e) => e.stopPropagation()}>
                     <select value={selectedFlavor || ''} onChange={handleFlavorChange}>
@@ -58,12 +58,12 @@ function CardProduct({ product }) {
                                 value={flavor._id}
                                 disabled={flavor.stockQuantity === 0}
                             >
-                                {flavor.flavorName} {flavor.stockQuantity === 0 ? '(нет в наличии)' : ''}
+                                {flavor.flavorName} {flavor.stockQuantity === 0 ? '(not available)' : ''}
                             </option>
                         ))}
                     </select>
                 </div>
-                <p className="price">Цена: {product.price} грн.</p>
+                <p className="price">Price: {product.price} $</p>
                 <button
                     className={`add-to-cart${isInCart ? '-remove' : '-add'}`}
                     onClick={(e) => {
@@ -71,11 +71,11 @@ function CardProduct({ product }) {
                         isInCart ? removeFromCart(selectedFlavor) : addToCart(selectedFlavor);
                     }}
                 >
-                    {isInCart ? 'Убрать из корзины' : 'В корзину'}
+                    {isInCart ? 'Remove from basket' : 'Add to cart'}
                 </button>
             </div>
             <a className="ngmassa-favorite"
-                title={isInWishlist ? 'Удалить из желаемого' : 'Добавить в желаемое'}
+                title={isInWishlist ? 'Remove from favorites' : 'Add to desired'}
                 onClick={(e) => {
                     e.stopPropagation();
                     isInWishlist ? removeFromWishlist(product._id) : addToWishlist(product);
@@ -86,7 +86,7 @@ function CardProduct({ product }) {
                 </svg>
             </a>
             <a className="ngmassa-comparison"
-                title={isInComparison ? 'Удалить из сравнения' : 'Добавить в сравнение'}
+                title={isInComparison ? 'Remove from comparison' : 'Add to comparison'}
                 onClick={(e) => {
                     e.stopPropagation();
                     isInComparison ? removeFromComparison(product._id) : addToComparison(product);

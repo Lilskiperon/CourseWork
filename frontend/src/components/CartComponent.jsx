@@ -74,7 +74,7 @@ const CartComponent= ({ setActiveTab}) => {
     };
     return (
         <>
-        <h2><ShoppingBasket className="success-icon" />Корзина</h2>
+        <h2><ShoppingBasket className="success-icon" />Basket</h2>
             <div className="cartpage-content">
             <motion.div
               className="table-content"
@@ -86,10 +86,10 @@ const CartComponent= ({ setActiveTab}) => {
             <thead>
               <tr>
                 <th></th>
-                <th>ТОВАР</th>
-                <th>ЦЕНА</th>
-                <th>КОЛИЧЕСТВО</th>
-                <th>ПОДЫТОГ</th>
+                <th>GOODS</th>
+                <th>PRICE</th>
+                <th>QUANTITY</th>
+                <th>SUMMARY</th>
               </tr>
             </thead>
               <tbody>
@@ -97,7 +97,7 @@ const CartComponent= ({ setActiveTab}) => {
                   <tr key={product._id || index}>
                     <td>
                       <svg
-                        className="svgicon"
+                        className="svgicon  delete-btn"
                         onClick={() => removeFromCart(product._id)}
                       >
                         <use href="/assets/svg/sprite-icons.svg#icon-close"></use>
@@ -127,7 +127,7 @@ const CartComponent= ({ setActiveTab}) => {
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th>Цена без скидки:</th>
+                    <th>Price without discount:</th>
                     <th>
                       {/* Показываем цену без скидки */}
                       {coupon 
@@ -141,7 +141,7 @@ const CartComponent= ({ setActiveTab}) => {
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th>Скидка:</th>
+                    <th>Discount:</th>
                     <th>
                       {coupon.discountPercentage}%
                     </th>
@@ -153,7 +153,7 @@ const CartComponent= ({ setActiveTab}) => {
                   <th></th>
                   <th></th>
                   <th></th>
-                  <th>Всего:</th>
+                  <th>Total:</th>
                   <th>{total} $</th>
                 </tr>
               
@@ -177,7 +177,7 @@ const CartComponent= ({ setActiveTab}) => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
               >
-                <h3>Личные данные</h3>
+                <h3>Personal data</h3>
                 <div className="personal-data-form">
                   <form className="form-method" onSubmit={handleSubmit}>
                   {!user && user.isGuest === true ? (<div className="tabs">
@@ -185,28 +185,28 @@ const CartComponent= ({ setActiveTab}) => {
                       className={`tab ${activeOption === "new" ? "active" : ""}`} 
                       onClick={() => setaActiveOption("new")}
                     >
-                      Новый клиент
+                      New customer
                     </div>
                     <div 
                       className={`tab ${activeOption === "existing" ? "active" : ""}`} 
                       onClick={() => setaActiveOption("existing")}
                     >
-                      Постоянный клиент
+                      Regular customer
                     </div>
                   </div>) : null}
                   <div className="tabs-content">
                       {user && user.isGuest === false ? (
                       <div className="user-info">
                         <div className="form-group">
-                          <label>Имя</label>
+                          <label>Name</label>
                           <div>{user.firstName}</div>
                         </div>
                         <div className="form-group">
-                          <label>Фамилия</label>
+                          <label>Last name</label>
                           <div>{user.lastName}</div>
                         </div>
                         <div className="form-group">
-                          <label>Телефон</label>
+                          <label>Telephone</label>
                           <div>{user.phone}</div>
                         </div>
                         <div className="form-group">
@@ -217,7 +217,7 @@ const CartComponent= ({ setActiveTab}) => {
                     ) :activeOption === "new" ? (
                     <div className="login-form">
                       <div className="form-group">
-                        <label>Имя</label>
+                        <label>Name</label>
                         <input
                           type="text"
                           name="firstName"
@@ -227,7 +227,7 @@ const CartComponent= ({ setActiveTab}) => {
                         />
                       </div>
                       <div className="form-group">
-                        <label>Фамилия</label>
+                        <label>Last name</label>
                         <input
                           type="text"
                           name="lastName"
@@ -237,7 +237,7 @@ const CartComponent= ({ setActiveTab}) => {
                         />
                       </div>
                       <div className="form-group">
-                        <label>Ваш телефон</label>
+                        <label>Your phone</label>
                           <InputMask
                             type="tel"
                             name="phone"
@@ -248,7 +248,7 @@ const CartComponent= ({ setActiveTab}) => {
                           />
                       </div>
                       <div className="form-group">
-                        <label>Ваша почта</label>
+                        <label>Your mail</label>
                         <input
                           type="email"
                           name="email"
@@ -258,7 +258,7 @@ const CartComponent= ({ setActiveTab}) => {
                         />
                       </div>
                       <div className="form-group">
-                        <label>Ваш пароль</label>
+                        <label>Your password</label>
                         <input
                           type="password"
                           name="password"
@@ -284,17 +284,17 @@ const CartComponent= ({ setActiveTab}) => {
                             checked={formData.rememberMe}
                             onChange={handleChange}
                           />
-                          <label htmlFor="remember">Запомнить меня</label>
+                          <label htmlFor="remember">Remember me</label>
                         </div>
                         <div className="forgot-password">
-                          <Link to="/forgot-password">Забыли пароль?</Link>
+                          <Link to="/forgot-password">Forgot your password?</Link>
                         </div>
                       </div>
                     </div>
                   </div>
                   )}
                   </div>
-                  <button className="apply-order">Оформить заказ</button>
+                  <button className="apply-order">Place an order</button>
                   </form>
                 </div>
                 

@@ -5,26 +5,26 @@ const steps = [
   {
     icon: <ShoppingCart />, 
     lines: [
-      'Добавляем нужный товар в корзину.',
-      'Все что есть на сайте, то в наличии.'
+      'Add the desired item to your shopping cart.',
+      'Everything on the website is in stock..'
     ]
   },
   {
     icon: <Truck />,
     lines: [
-      'Переходим в Корзину, выбираем способ доставки, жмем “Оформить заказ”.'
+      'Go to the Shopping Cart, select the delivery method, and click “Place Order.”.'
     ]
   },
   {
     icon: <UserPen  />,
     lines: [
-      'Вводим ФИО, ваш e-mail (на него придут реквизиты для оплаты),вводим адрес доставки, жмем “Подтвердить заказ”.'
+      'Enter your full name, your email address (payment details will be sent to this address), enter your delivery address, and click “Confirm order.”.'
     ]
   },
   {
     icon: <Mail />,
     lines: [
-      'Далее ждем обработки заказа и письмо с реквизитами для оплаты на ваш e-mail.'
+      'Next, we await order processing and an email with payment details sent to your email address..'
     ]
   }
 ];
@@ -32,7 +32,7 @@ const steps = [
 function OrderProcessPage() {
   return (
     <div className="order-steps">
-      <h1 className="order-steps__title">Как оформить заказ</h1>
+      <h1 className="order-steps__title">How to place an order</h1>
       <div className="order-steps__cards">
         {steps.map((step, idx) => (
           <div key={idx} className="order-steps__card">
@@ -46,7 +46,7 @@ function OrderProcessPage() {
       </div>
       <div className="order-steps__alert">
         <span>
-          По всем вопросам пишите на почту <a href="mailto:rumassa13@gmail.com">rumassa13@gmail.com</a> или телеграм <a href="https://t.me/Rumassa">@Rumassa</a> или в чате на сайте
+          For all questions, please write to the following email address <a href="mailto:ngmassa13@gmail.com">ngmassa13@gmail.com</a> or telegram <a href="https://t.me/Ngmassa">@Ngmassa</a> or in the chat on the website
         </span>
         <button className="order-steps__alert-close">&times;</button>
       </div>

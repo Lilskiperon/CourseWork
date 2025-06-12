@@ -58,7 +58,7 @@ export default function Orders() {
           } else if (Array.isArray(raw.data)) {
             raw = raw.data;
           } else {
-            throw new Error('Невалидный формат ответа от /orders');
+            throw new Error('Invalid response format from /orders');
           }
         }
 
@@ -101,19 +101,19 @@ export default function Orders() {
   }, []);
 
   const handleDelete = async row => {
-    if (!window.confirm('Удалить этот заказ?')) return;
+    if (!window.confirm('Delete this order?')) return;
     try {
       await axios.delete(`/api/admin/orders/${row.original._id}`);
       setOrders(prev => prev.filter(o => o._id !== row.original._id));
-      alert('Заказ удалён');
+      alert('Order deleted');
     } catch {
-      alert('Не удалось удалить заказ');
+      alert('Unable to delete order');
     }
   };
 
   const columns = [
     {
-      header: 'Заказчик',
+      header: 'Customer',
       accessorKey: 'user',
       cell: ({ row }) => {
         const u = row.original.user;
@@ -126,7 +126,7 @@ export default function Orders() {
       },
     },
     {
-      header: 'Товары',
+      header: 'Goods',
       accessorKey: 'orderItems',
       cell: ({ row }) => (
         <ul className="cell-items">
@@ -139,12 +139,12 @@ export default function Orders() {
       ),
     },
     {
-      header: 'Сумма',
+      header: 'Amount',
       accessorKey: 'totalAmount',
       cell: info => `$${info.getValue().toFixed(2)}`,
     },
     {
-      header: 'Статус',
+      header: 'Status',
       accessorKey: 'status',
       cell: ({ row }) => {
         const st = row.original.status;
@@ -153,11 +153,11 @@ export default function Orders() {
       },
     },
     {
-      header: 'Адрес',
+      header: 'Address',
       accessorKey: 'shippingAddress',
     },
     {
-      header: 'Дата',
+      header: 'Date',
       accessorKey: 'createdAt',
       cell: info =>
         new Date(info.getValue()).toLocaleString('ru-RU', {
@@ -166,7 +166,7 @@ export default function Orders() {
         }),
     },
     {
-      header: 'Действия',
+      header: 'Actions',
       id: 'actions',
       cell: ({ row }) => (
         <div className="cell-actions">
@@ -195,8 +195,8 @@ export default function Orders() {
     enableColumnResizing: true,
   });
 
-  if (loading) return <div className="admin-container">Загрузка...</div>;
-  if (error)   return <div className="admin-container">Ошибка: {error}</div>;
+  if (loading) return <div className="admin-container">Download...</div>;
+  if (error)   return <div className="admin-container">Error: {error}</div>;
 
   return (
     <div className="admin-container">
@@ -209,7 +209,7 @@ export default function Orders() {
           onChange={e => table.setPageSize(Number(e.target.value))}
         >
           {[10, 20, 50].map(s => (
-            <option key={s} value={s}>Показать {s}</option>
+            <option key={s} value={s}>Show {s}</option>
           ))}
         </select>
       </div>

@@ -6,7 +6,7 @@ exports.getAllNews = async (req, res) => {
     const news = await News.find().sort({ createdAt: -1 });
     res.json(news);
   } catch (err) {
-    res.status(500).json({ error: 'Ошибка получения новостей' });
+    res.status(500).json({ error: 'Error receiving news' });
   }
 };
 
@@ -16,11 +16,11 @@ exports.getNewsById = async (req, res) => {
   try {
     const newsItem = await News.findById(id); 
     if (!newsItem) {
-      return res.status(404).json({ error: 'Новость не найдена' });
+      return res.status(404).json({ error: 'No news found' });
     }
     res.json(newsItem);
   } catch (err) {
-    res.status(500).json({ error: 'Ошибка получения новости' });
+    res.status(500).json({ error: 'Error receiving news' });
   }
 };
 
@@ -30,7 +30,7 @@ exports.addNews = async (req, res) => {
     const news = await News.create({ title, category, author, date, image_url, content });
     res.status(201).json(news);
   } catch (err) {
-    res.status(500).json({ error: 'Ошибка добавления новости' });
+    res.status(500).json({ error: 'Error adding news' });
   }
 };
 
@@ -41,7 +41,7 @@ exports.updateNews = async (req, res) => {
   try {
     const newsItem = await News.findById(id);
     if (!newsItem) {
-      return res.status(404).json({ error: 'Новость не найдена' });
+      return res.status(404).json({ error: 'No news found' });
     }
     newsItem.title = title;
     newsItem.category = category;
@@ -52,7 +52,7 @@ exports.updateNews = async (req, res) => {
     await newsItem.save();  
     res.json(newsItem);
   } catch (err) {
-    res.status(500).json({ error: 'Ошибка обновления новости' });
+    res.status(500).json({ error: 'News update error' });
   }
 };
 
@@ -62,11 +62,11 @@ exports.deleteNews = async (req, res) => {
   try {
     const newsItem = await News.findById(id);  
     if (!newsItem) {
-      return res.status(404).json({ error: 'Новость не найдена' });
+      return res.status(404).json({ error: 'No news found' });
     }
     await newsItem.remove(); 
-    res.json({ message: 'Новость успешно удалена' });
+    res.json({ message: 'News successfully deleted' });
   } catch (err) {
-    res.status(500).json({ error: 'Ошибка удаления новости' });
+    res.status(500).json({ error: 'Error deleting news' });
   }
 };

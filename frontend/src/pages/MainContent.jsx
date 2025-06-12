@@ -35,7 +35,7 @@ function MainContent() {
             setRecommendations(recommendationsData);
             setNews(newsData);
           } catch (error) {
-            console.error('Ошибка загрузки данных:', error);
+            console.error('Data loading error:', error);
           }
         };
     
@@ -58,10 +58,10 @@ function MainContent() {
             <section className="telegram-section">
                 <div className="telegram-content">
                     <div className="text-block">
-                        <h2>Присоединяйтесь<br/> к нашему сообществу<br/> в Телеграмм!</h2>
+                        <h2>Join us to our<br/> community on Telegram!</h2>
                         <p>
-                            Более 3000 довольных клиентов оставляют свои видео-отзывы о нашей <br/>
-                            продукции и делятся достижениями в спорте!
+                            Over 3,000 satisfied customers leave their video reviews about our <br/>
+                            products and share their sporting achievements!
                         </p>
                         <a href="#" className="telegram-btn">
                             <svg>
@@ -83,7 +83,7 @@ function MainContent() {
               animate={hasAnimated.section1 ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
             >
-                <ProductCarousel title="НГМасса рекомендует" products={recommendations} itemType="product" />
+                <ProductCarousel title="NGMassa recommends" products={recommendations} itemType="product" />
             </motion.div>   
             {/* Novelty Section */}
             <motion.div
@@ -92,7 +92,7 @@ function MainContent() {
               animate={hasAnimated.section2 ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
             >
-                <ProductCarousel title="Новинки" products={newArrivals} itemType="product" />
+                <ProductCarousel title="New arrivals" products={newArrivals} itemType="product" />
             </motion.div> 
             {/* News Section */}
             <motion.div
@@ -101,15 +101,15 @@ function MainContent() {
               animate={hasAnimated.section3 ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
             >
-                <ProductCarousel title="Новости" products={news} itemType="news" />
+                <ProductCarousel title="News" products={news} itemType="news" />
             </motion.div> 
             {/* Subscription Section */}
             <div className="subscription-section">
                 <div className="subscription-content">
-                  <h1>Подпишись на нашу рассылку</h1>
-                  <p>Подписывайся на рассылку и получай на каждый товар -5%</p>
+                  <h1>Subscribe to our newsletter</h1>
+                  <p>Subscribe to the newsletter and receive a discount on every product -5%</p>
                   <input type="email" placeholder="E-mail" className="email-input" />
-                  <button className="subscribe-button">Подписаться</button>
+                  <button className="subscribe-button">Subscribe</button>
                 </div>
                 <img src="/assets/img/muscle-man2.png" alt="Muscle Man"></img>
             </div>

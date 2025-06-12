@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import './CardNews.css'; // Стили карточки
 
@@ -11,7 +11,7 @@ const CardNews = ({ news }) => {
 
   return (
     <div className="news-card">
-      <div className="news-category">{news.category || 'Без рубрики'}</div>
+      <div className="news-category">{news.category || 'Uncategorized'}</div>
       <img className="news-image" src={news.image_url} alt={news.title} />
       <div className="news-content">
         <h3 className="news-title">{news.title}</h3>

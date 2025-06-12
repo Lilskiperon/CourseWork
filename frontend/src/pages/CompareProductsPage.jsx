@@ -48,7 +48,7 @@ const CompareProductsPage = () => {
 
     return (
         <div className="comparison-page">
-            <h2>Сравнение</h2>
+            <h2>Comparison</h2>
             <div className="categories">
                 {Object.entries(groupedByCategory).map(([category, products]) => (
                     <div
@@ -89,7 +89,7 @@ const CompareProductsPage = () => {
             <table className="comparison-table">
               <thead>
                 <tr>
-                  <th><button>Добавить Товар</button></th>
+                  <th><button>Add Product</button></th>
                   {products.map((product,index) => (<td key={`${product._id || index}-image`} className="product-image">
                     <button className="remove-button" onClick={() => removeFromComparison(product._id)}>
                       <svg className="svgicon">
@@ -104,11 +104,11 @@ const CompareProductsPage = () => {
                     <div className='select-option'>
                         <label>
                             <input type="radio" name="features"checked={showAllFeatures} onChange={() => setShowAllFeatures(true)} />
-                            Выбрать все
+                            Select all
                         </label>
                         <label>
                           <input type="radio"  name="features" checked={!showAllFeatures} onChange={() => setShowAllFeatures(false)}/>
-                        Выбрать разные</label>
+                        Select different</label>
                     </div>
                   </th>
                   {products.map((product,index) => (<td key={`${product._id || index}-price`} className="product-price">
@@ -119,25 +119,25 @@ const CompareProductsPage = () => {
               </thead>
               <tbody>
                 <tr>
-                  <th>Бренд</th>
+                  <th>Brand</th>
                   {products.map((product, index) => (
                     <td key={`${product._id || index}-brand`}>{product.productId.brand}</td>
                   ))}
                 </tr>
                 <tr>
-                  <th>Форма</th>
+                  <th>Form</th>
                   {products.map((product, index) => (
                     <td key={`${product._id || index}-form`}>{product.productId.form}</td>
                   ))}
                 </tr>
                 <tr>
-                  <th>Тип</th>
+                  <th>Type</th>
                   {products.map((product, index) => (
                     <td key={`${product._id || index}-type`}>{product.productId.type}</td>
                   ))}
                 </tr>
                 <tr>
-                  <th>Описание</th>
+                  <th>Description</th>
                   {products.map((product, index) => (
                     <td key={`${product._id || index}-description`}>{product.productId.description}</td>
                   ))}

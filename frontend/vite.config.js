@@ -10,7 +10,7 @@ export default defineConfig({
     },
   },
   server: {
-    host: '26.84.9.17',
+    host: '26.112.27.74',
     changeOrigin: true,
   },
 })

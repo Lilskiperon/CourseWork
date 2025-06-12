@@ -5,7 +5,7 @@ const FavoriteProducts = () => {
     const { wishlist, removeFromWishlist } = useCartStore();
     return (
         <div className="favorite-products-page">
-            <h2>Избранные товары</h2>
+            <h2>Selected products</h2>
 
             <div className="favorites-container">
                 {wishlist.length > 0 ? (
@@ -25,14 +25,14 @@ const FavoriteProducts = () => {
                                         className="remove-btn"
                                         onClick={() => removeFromWishlist(product._id)}
                                     >
-                                        Удалить
+                                        Delete
                                     </button>
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p>Нет избранных товаров</p>
+                    <p>No selected products</p>
                 )}
             </div>
         </div>

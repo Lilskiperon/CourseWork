@@ -5,7 +5,7 @@
 }
 
 
-.grid-content{
+.admin-container .grid-content{
     display: flex;
     margin-bottom: 16px;
     gap: 8px;
@@ -14,7 +14,7 @@
 
 }
 
-.tanstack-table {
+.admin-container .tanstack-table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
@@ -22,27 +22,27 @@
   overflow: hidden;
   font-size: 15px;
 }
-.tanstack-table th, .tanstack-table td {
+.admin-container .tanstack-table th, .tanstack-table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #f1f1f1;
   text-align: left;
   background: #fff;
 }
-.tanstack-table th {
+.admin-container .tanstack-table th {
   background: #f7fafc;
   font-weight: 700;
   position: relative;
   user-select: none;
 }
-.tanstack-table th .sort-indicator {
+.admin-container .tanstack-table th .sort-indicator {
   margin-left: 0.3em;
   color: #2563eb;
   font-size: 1em;
 }
-.tanstack-table tr:hover {
+.admin-container .tanstack-table tr:hover {
   background: #f3f6fa;
 }
-.tanstack-table td .edit-btn {
+.admin-container .tanstack-table td .edit-btn {
   display: none;
   margin-left: 8px;
   background: #2563eb;
@@ -53,13 +53,13 @@
   cursor: pointer;
   font-size: 13px;
 }
-.tanstack-table tr:hover td .edit-btn {
+.admin-container .tanstack-table tr:hover td .edit-btn {
   display: inline-block;
 }
-.tanstack-table td {
+.admin-container .tanstack-table td {
   vertical-align: middle;
 }
-.pagination-btn {
+.admin-container .pagination-btn {
   background: #2563eb;
   color: #fff;
   border: none;
@@ -70,18 +70,18 @@
   font-weight: 600;
   transition: background 0.2s;
 }
-.pagination-btn:disabled {
+.admin-container .pagination-btn:disabled {
   background: #cbd5e1;
   color: #fff;
   cursor: not-allowed;
 }
-.page-size-select {
+.admin-container .page-size-select {
   border-radius: 6px;
   border: 1px solid #cbd5e1;
   padding: 12px;
   margin-left: 8px;
 }
-.context-menu {
+.admin-container .context-menu {
   position: absolute;
   z-index: 10;
   background: #fff;
@@ -91,22 +91,22 @@
   min-width: 120px;
   padding: 0.5em 0;
 }
-.context-menu__item {
+.admin-container .context-menu__item {
   padding: 0.5em 1em;
   cursor: pointer;
   transition: background 0.15s;
 }
-.context-menu__item:hover {
+.admin-container .context-menu__item:hover {
   background: #f3f6fa;
 }
 @media (max-width: 700px) {
-  .tanstack-table th, .tanstack-table td {
+  .admin-container .tanstack-table th, .tanstack-table td {
     padding: 0.5rem 0.5rem;
     font-size: 13px;
   }
 }
 @media (min-width: 768px) {
-  .grid-container {
+  .admin-container .grid-container {
     margin: 2.5rem;
     padding: 2.5rem;
   }

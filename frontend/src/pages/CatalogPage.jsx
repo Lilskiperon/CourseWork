@@ -40,7 +40,7 @@ const Catalog = () => {
         const data = await getBrands();
         setBrands(data);
       } catch (error) {
-        console.error('Ошибка при загрузке брендов:', error);
+        console.error('Error loading brands:', error);
       }
     };
     fetchBrandsData();
@@ -52,7 +52,7 @@ const Catalog = () => {
       setProducts([ ...data.products ]);
       setHasMore(data.hasMore); 
     } catch (error) {
-      console.error('Ошибка при загрузке продуктов:', error);
+      console.error('Error loading products:', error);
     }
   };
 
@@ -101,7 +101,7 @@ const Catalog = () => {
     <div className="catalog-container">
       <aside className="filters">
         <div className="filter-group">
-          <h3>Бренды</h3>
+          <h3>Brands</h3>
           {brands.map((brand) => (
             <label key={brand} className="filter-item">
               <input
@@ -115,23 +115,23 @@ const Catalog = () => {
           ))}
         </div>
         <div className="filter-group">
-          <h3>Категория</h3>
+          <h3>Category</h3>
           <input
             type="text"
             name="category"
-            placeholder="Введите категорию"
+            placeholder="Enter category"
             value={filters.category}
             onChange={handleFilterChange}
             className="filter-input"
           />
         </div>
         <div className="filter-group">
-          <h3>Цена</h3>
+          <h3>Price</h3>
           <div className="price-inputs">
             <input
               type="number"
               name="priceMin"
-              placeholder="Минимум"
+              placeholder="Minimum"
               value={filters.priceMin}
               onChange={handleFilterChange}
               className="filter-input"
@@ -139,7 +139,7 @@ const Catalog = () => {
             <input
               type="number"
               name="priceMax"
-              placeholder="Максимум"
+              placeholder="Maximum"
               value={filters.priceMax}
               onChange={handleFilterChange}
               className="filter-input"
@@ -147,16 +147,16 @@ const Catalog = () => {
           </div>
         </div>
         <div className="filter-group">
-          <h3>Сортировка</h3>
+          <h3>Sorting</h3>
           <select
             name="sortField"
             value={filters.sortField}
             onChange={handleFilterChange}
             className="filter-select"
           >
-            <option value="price">По цене</option>
-            <option value="brand">По бренду</option>
-            <option value="weight">По весу</option>
+            <option value="price">By price</option>
+            <option value="brand">By brand</option>
+            <option value="weight">By weight</option>
           </select>
           <select
             name="sortOrder"
@@ -164,12 +164,12 @@ const Catalog = () => {
             onChange={handleFilterChange}
             className="filter-select"
           >
-            <option value="asc">По возрастанию</option>
-            <option value="desc">По убыванию</option>
+            <option value="asc">In ascending order</option>
+            <option value="desc">In descending order</option>
           </select>
         </div>
         <div className="filter-group">
-          <h3>Количество отображаемого товара</h3>
+          <h3>Number of items displayed</h3>
           <select
             name="limit"
             value={filters.limit}
@@ -192,13 +192,13 @@ const Catalog = () => {
 
             </>
           ) : (
-            <p>Нет товаров</p>
+            <p>No products</p>
           )}
         </main>
         {hasMore && (
           <div className="button-container">
             <button onClick={loadProducts} className="load-more-button">
-              Загрузить ещё
+              Download more
             </button>
           </div>
         )}

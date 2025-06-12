@@ -58,7 +58,7 @@ const Header = () => {
       setResults(data);
       setShowDropdown(true);
     } catch (error) {
-      console.error('Ошибка при поиске товаров:', error);
+      console.error('Error searching for products:', error);
     }
   }, 300);
 
@@ -87,7 +87,7 @@ const Header = () => {
               <img src="/assets/img/logoSite.png" alt="Logo" />
             </Link>
             <div className="text_logo">
-              <h1>Интернет-магазин</h1>
+              <h1>Online store</h1>
               <h1>
                 <b>NG-MASSA</b>
               </h1>
@@ -100,7 +100,7 @@ const Header = () => {
               id="productSearch"
               value={query}
               onChange={handleInputChange}
-              placeholder="Введите название товара"
+              placeholder="Enter the name of the product"
               onFocus={() => setShowDropdown(true)}
             />
             {showDropdown && (
@@ -134,15 +134,15 @@ const Header = () => {
                   <svg className="svgicon">
                     <use href="/assets/svg/sprite-icons.svg#icon-more-items"></use>
                   </svg>
-                  <span>Каталог</span>
+                  <span>Catalog</span>
                 </Link>
               </li>
-              <li><Link to="/catalog?category=Protein">Протеиновые добавки</Link></li>
-              <li><Link to="/catalog?category=Creatine">Креатины</Link></li>
-              <li><Link to="/catalog?category=Amino+Acids">Аминокислоты</Link></li>
-              <li><Link to="/catalog?category=Vitamins">Витамины и минералы</Link></li>
-              <li><Link to="/catalog?category=Mass+Gainer">Гейнеры</Link></li>
-              <li><Link to="/catalog?category=Fat+burners">Жиросжигатели</Link></li>
+              <li><Link to="/catalog?category=Protein">Protein supplements</Link></li>
+              <li><Link to="/catalog?category=Creatine">Creatines</Link></li>
+              <li><Link to="/catalog?category=Amino+Acids">Amino acids</Link></li>
+              <li><Link to="/catalog?category=Vitamins">Vitamins and minerals</Link></li>
+              <li><Link to="/catalog?category=Mass+Gainer">Gainers</Link></li>
+              <li><Link to="/catalog?category=Fat+burners">Fat burners</Link></li>
             </ul>
           </div>
           <div className="icons"> 
@@ -156,12 +156,12 @@ const Header = () => {
               <div className="menu-pointer"></div> 
                 <div className="menu-option">
                   <Link to="/login" onClick={handleMenuOptionClick}>
-                    <button className="menu-btn">Вход</button>
+                    <button className="menu-btn">Entrance</button>
                   </Link>
                 </div>
                 <div className="menu-option">
                   <Link to="/register" onClick={handleMenuOptionClick}>
-                    <button className="menu-btn registration">Регистрация</button>
+                    <button className="menu-btn registration">Registration</button>
                   </Link>
                 </div>
             </div>
@@ -193,7 +193,7 @@ const Header = () => {
               </svg>
               <div className="cartInfo">
                 <span className="price_item">{total} $</span>
-                <span className="amount_items">{cart.length} товаров</span>
+                <span className="amount_items">{cart.length} goods</span>
               </div>
             </div>
             </div>

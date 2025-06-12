@@ -6,7 +6,7 @@ exports.getAllProducts = async (req, res) => {
         const products = await Product.find();
         res.json(products);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка получения продуктов' });
+        res.status(500).json({ error: 'Error receiving products' });
     }
 };
 
@@ -15,11 +15,11 @@ exports.getProductById = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {
-            return res.status(404).json({ error: 'Продукт не найден' });
+            return res.status(404).json({ error: 'Product not found' });
         }
         res.json(product);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка получения продукта' });
+        res.status(500).json({ error: 'Product retrieval error' });
     }
 };
 
@@ -30,7 +30,7 @@ exports.createProduct = async (req, res) => {
         await product.save();
         res.status(201).json(product);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка создания продукта' });
+        res.status(500).json({ error: 'Product creation error' });
     }
 };
 
@@ -39,11 +39,11 @@ exports.updateProduct = async (req, res) => {
     try {
         const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!product) {
-            return res.status(404).json({ error: 'Продукт не найден' });
+            return res.status(404).json({ error: 'Product not found' });
         }
         res.json(product);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка обновления продукта' });
+        res.status(500).json({ error: 'Product update error' });
     }
 };
 
@@ -52,11 +52,11 @@ exports.deleteProduct = async (req, res) => {
     try {
         const product = await Product.findByIdAndDelete(req.params.id);
         if (!product) {
-            return res.status(404).json({ error: 'Продукт не найден' });
+            return res.status(404).json({ error: 'Product not found' });
         }
-        res.json({ message: 'Продукт удалён' });
+        res.json({ message: 'Product removed' });
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка удаления продукта' });
+        res.status(500).json({ error: 'Product removal error' });
     }
 };
 
@@ -67,7 +67,7 @@ exports.getBrandProducts = async (req, res) => {
         const brands = await Product.distinct('brand');
         res.json(brands);
     } catch (error) {
-        console.error('Ошибка получения брендов:', error);
+        console.error('Brand retrieval error:', error);
         res.status(500).send('Server error');
     }
 };

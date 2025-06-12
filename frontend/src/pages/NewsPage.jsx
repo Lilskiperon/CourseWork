@@ -8,7 +8,7 @@ const NewsPage = () => {
   const { news } = location.state || {};
 
   if (!news) {
-    return <p>Новость не найдена.</p>;
+    return <p>No news found.</p>;
   }
 
   return (
@@ -16,7 +16,7 @@ const NewsPage = () => {
       <div className="news-page-header">
         <h1>{news.title}</h1>
         <p className="news-page-meta">
-          {new Date(news.date).toLocaleDateString()} | Автор: {news.author} | Категория: {news.category || 'Без рубрики'}
+          {new Date(news.date).toLocaleDateString()} | Author: {news.author} | Category: {news.category || 'Без рубрики'}
         </p>
       </div>
       <img className="news-page-image" src={news.image_url} alt={news.title} />
@@ -25,7 +25,7 @@ const NewsPage = () => {
       </div>
       <div className="news-page-footer">
         <button className="back-button" onClick={() => navigate(-1)}>
-          Назад к новостям
+          Back to news
         </button>
       </div>
     </div>

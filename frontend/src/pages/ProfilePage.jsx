@@ -1,153 +1,188 @@
-import  { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserStore } from '../stores/useUserStore';
 import { getOrderHistory } from '../api/orders';
-import { updateUser } from '../api/user';
+import { updateUser, getAllUsers, getUserById } from '../api/user';
 import { useNavigate, useParams } from 'react-router-dom';
 import './ProfilePage.css';
 
-const ProfilePage = () => {
+export default function ProfilePage () {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
   const { tab } = useParams();
-  const [editMode, setEditMode] = useState(false);
-  const [orderHistory, setOrderHistory] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [formData, setFormData] = useState({
-    email: user?.email || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    phone: user?.phone || '',
-  });
 
-  // Обновляем formData при изменении user
+  const [users, setUsers] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState(user?._id);
+  const [currentUser, setCurrentUser] = useState(user);
+
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+  });
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+  const [error, setError] = useState(null);
   useEffect(() => {
-    if (user) {
-      setFormData({
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phone: user.phone,
-      });
+    if (user?.isAdmin) {
+      getAllUsers()
+        .then(data => setUsers(data))
+        .catch(err => console.error('Failed to load users', err));
     }
   }, [user]);
 
-  // Обработчик изменения полей ввода
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  // Функция сохранения данных
-  const handleSave = async () => {
-    try {
-      await updateUser(user._id, formData);
-      setEditMode(false);
-    } catch (error) {
-      console.error('Ошибка при сохранении данных:', error);
+  // Determine which user to display
+  useEffect(() => {
+    if (user?.isAdmin && selectedUserId && selectedUserId !== user._id) {
+      getUserById(selectedUserId)
+        .then(u => setCurrentUser(u))
+        .catch(err => console.error('Failed to load user', err));
+    } else {
+      setCurrentUser(user);
     }
-  };
+  }, [selectedUserId, user]);
 
   useEffect(() => {
-    if (user === false) {
-      navigate('/login');
-      return;
+    if (currentUser) {
+      setFormData({
+        email: currentUser.email || '',
+        firstName: currentUser.firstName || '',
+        lastName: currentUser.lastName || '',
+        phone: currentUser.phone || '',
+      });
     }
+  }, [currentUser]);
 
-    if (tab === 'orders' && user) {
-      getOrderHistory(user._id)
+  useEffect(() => {
+    if (currentUser) {
+      setLoadingOrders(true);
+      getOrderHistory(currentUser._id)
         .then(data => {
           setOrderHistory(data);
-          setLoading(false);
+          setLoadingOrders(false);
         })
         .catch(() => {
-          setError('Не удалось загрузить историю заказов.');
-          setLoading(false);
+          setError('Unable to load order history.');
+          setLoadingOrders(false);
         });
-    } else {
-      setLoading(false);
     }
-  }, [user, tab, navigate]);
+  }, [currentUser]);
 
-  if (!user) {
-    return <div>Пожалуйста, войдите в систему, чтобы просмотреть свой профиль.</div>;
+  if (!currentUser) {
+    return <div>Please log in to view your profile..</div>;
   }
 
-  const renderContent = () => {
-    switch (tab) {
-      case 'orders':
-        if (loading) return <p>Загрузка...</p>;
-        if (error) return <p>{error}</p>;
-        return (
-          <div>
-            <h2>История заказов</h2>
-            {orderHistory.length > 0 ? (
-              orderHistory.map(order => (
-                <div key={order._id}>
-                  <p>Заказ №{order.orderNumber}: {order.status}</p>
-                </div>
-              ))
-            ) : (
-              <p>У вас пока нет заказов.</p>
-            )}
-          </div>
-        );
-      case 'settings':
-        return <h2>Настройки</h2>;
-      default:
-        return (
-          <>
-            <h2>Основная информация</h2>
-            <div>
-              <strong>Email:</strong> {editMode ? (
-                <input type="text" name="email" value={formData.email} onChange={handleChange} />
-              ) : (
-                user.email
-              )}
-            </div>
-            <div>
-              <strong>Фамилия:</strong> {editMode ? (
-                <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
-              ) : (
-                user.lastName
-              )}
-            </div>
-            <div>
-              <strong>Имя:</strong> {editMode ? (
-                <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
-              ) : (
-                user.firstName
-              )}
-            </div>
-            <div>
-              <strong>Телефон:</strong> {editMode ? (
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
-              ) : (
-                user.phone
-              )}
-            </div>
-            {editMode ? (
-              <button onClick={handleSave}>Сохранить</button>
-            ) : (
-              <button onClick={() => setEditMode(true)}>Редактировать</button>
-            )}
-          </>
-        );
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    try {
+      await updateUser(currentUser._id, formData);
+      setEditMode(false);
+    } catch (err) {
+      console.error('Error saving data:', err);
     }
+  };
+
+  const renderOverview = () => (
+    <div className="profile-overview">
+      <div className="info-row">
+        <label>Email:</label>
+        {editMode ? (
+          <input type="text" name="email" value={formData.email} onChange={handleChange} />
+        ) : (
+          <span>{currentUser.email}</span>
+        )}
+      </div>
+      <div className="info-row">
+        <label>Last name:</label>
+        {editMode ? (
+          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
+        ) : (
+          <span>{currentUser.lastName}</span>
+        )}
+      </div>
+      <div className="info-row">
+        <label>Name:</label>
+        {editMode ? (
+          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
+        ) : (
+          <span>{currentUser.firstName}</span>
+        )}
+      </div>
+      <div className="info-row">
+        <label>Telephone:</label>
+        {editMode ? (
+          <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
+        ) : (
+          <span>{currentUser.phone}</span>
+        )}
+      </div>
+      <div className="action-row">
+        {editMode ? (
+          <button onClick={handleSave}>Save</button>
+        ) : (
+          <button onClick={() => setEditMode(true)}>Edit</button>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderOrders = () => {
+    if (loadingOrders) return <p>Download order history...</p>;
+    if (error) return <p className="error">{error}</p>;
+
+    return (
+      <div className="orders-section">
+        {orderHistory.length ? (
+          orderHistory.map(order => (
+            <div key={order._id} className="order-card">
+              <h3>Order №{order.orderNumber}</h3>
+              <div className="order-details">
+                <p><strong>Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
+                <p><strong>Status:</strong> {order.status}</p>
+                {order.products.map(item => (
+                  <p key={item.product._id}>
+                    {item.product.flavorName} × {item.quantity} = {item.quantity * item.price}$
+                  </p>
+                ))}
+              </div>
+              <div className="order-footer">
+                <span>Total: {order.products.reduce((sum, i) => sum + i.quantity * i.price, 0)}$</span>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>You don't have any orders yet..</p>
+        )}
+      </div>
+    );
   };
 
   return (
-    <div className="profile-page">
-      <h1>Добро пожаловать, {user.firstName} {user.lastName}</h1>
-      <div className="profile-tabs">
-        <button onClick={() => navigate('/profile')}>Основная информация</button>
-        <button onClick={() => navigate('/profile/orders')}>История заказов</button>
-        <button onClick={() => navigate('/profile/settings')}>Настройки</button>
+      <div className="main-container">
+        <div className="profile-page">
+          <div className="profile-header">
+            <h1>Welcome, {currentUser.firstName} {currentUser.lastName}</h1>
+            <button className="logout-btn" onClick={logout}>Exit</button>
+          </div>
+
+          <div className="profile-tabs">
+            <button className={!tab ? 'active' : ''} onClick={() => navigate('/profile')}>Basic information</button>
+            <button className={tab==='orders' ? 'active' : ''} onClick={() => navigate('/profile/orders')}>Order history</button>
+            {user?.isAdmin && (
+              <button className={!tab ? 'active' : ''} onClick={() => navigate('/admin')}>Dashboard</button>
+            )}
+          </div>
+
+          <div className="profile-content">
+            {tab==='orders' ? renderOrders() : renderOverview()}
+          </div>
+        </div>
       </div>
-      <div className="profile-content">{renderContent()}</div>
-      <button onClick={logout}>Выйти</button>
-    </div>
   );
 };
 
-export default ProfilePage;

@@ -6,7 +6,7 @@ exports.getAllFlavors = async (req, res) => {
         const flavors = await Flavor.find();
         res.json(flavors);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка получения вкусов' });
+        res.status(500).json({ error: 'Error receiving flavors' });
     }
 };
 
@@ -16,11 +16,11 @@ exports.getFlavorsByPackagingId = async (req, res) => {
         const { packagingId } = req.params;
         const flavors = await Flavor.find({ packagingId: packagingId });
         if (!flavors.length) {
-            return res.status(404).json({ error: 'Вкусы не найдены для этого пакета' });
+            return res.status(404).json({ error: 'No flavors found for this package' });
         }
         res.json(flavors);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка получения вкусов' });
+        res.status(500).json({ error: 'Error receiving flavors' });
     }
 };
 exports.getFlavorsById = async (req, res) => {
@@ -33,7 +33,7 @@ exports.getFlavorsById = async (req, res) => {
 		
         res.json(product);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка получения продукта' });
+        res.status(500).json({ error: 'Product retrieval error' });
     }
 };
 
@@ -50,7 +50,7 @@ exports.createFlavor = async (req, res) => {
         await flavor.save();  // Сохраняем новый документ в MongoDB
         res.status(201).json(flavor);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка добавления нового вкуса' });
+        res.status(500).json({ error: 'Error adding new flavor' });
     }
 };
 
@@ -62,7 +62,7 @@ exports.updateFlavor = async (req, res) => {
 
         const flavor = await Flavor.findById(id);  // Поиск документа по id
         if (!flavor) {
-            return res.status(404).json({ error: 'Вкус не найден' });
+            return res.status(404).json({ error: 'Taste not found' });
         }
         flavor.flavorName = flavorName;
         flavor.stockQuantity = stockQuantity;
@@ -71,7 +71,7 @@ exports.updateFlavor = async (req, res) => {
         await flavor.save();  // Сохраняем изменения
         res.json(flavor);
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка обновления вкуса' });
+        res.status(500).json({ error: 'Flavor update error' });
     }
 };
 
@@ -81,12 +81,12 @@ exports.deleteFlavor = async (req, res) => {
         const { id } = req.params;
         const flavor = await Flavor.findById(id);  // Поиск по id
         if (!flavor) {
-            return res.status(404).json({ error: 'Вкус не найден' });
+            return res.status(404).json({ error: 'Taste not found' });
         }
         await flavor.remove();  // Удаляем документ
-        res.json({ message: 'Вкус удалён' });
+        res.json({ message: 'Taste removed' });
     } catch (err) {
-        res.status(500).json({ error: 'Ошибка удаления вкуса' });
+        res.status(500).json({ error: 'Taste removal error' });
     }
 };
 exports.getProductsByIds = async (req, res) => {
@@ -94,7 +94,7 @@ exports.getProductsByIds = async (req, res) => {
         const { products } = req.body;
 
         if (!products || !Array.isArray(products)) {
-            return res.status(400).json({ error: "Неверный формат данных" });
+            return res.status(400).json({ error: "Incorrect data format" });
         }
         const productMap = new Map(products.map(item => [item.product, { quantity: item.quantity, price: item.price }]));
 
@@ -113,6 +113,6 @@ exports.getProductsByIds = async (req, res) => {
 
         res.json(result);
     } catch (err) {
-        res.status(500).json({ error: "Ошибка получения продуктов" });
+        res.status(500).json({ error: "Error receiving products" });
     }
 };
