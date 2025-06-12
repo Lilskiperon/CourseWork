@@ -1,6 +1,7 @@
 import  { useState, useEffect } from 'react';
 import { useUserStore } from '../stores/useUserStore';
 import { getOrderHistory } from '../api/orders';
+import { updateUser } from '../api/user';
 import { useNavigate, useParams } from 'react-router-dom';
 import './ProfilePage.css';
 
@@ -40,7 +41,7 @@ const ProfilePage = () => {
   // Функция сохранения данных
   const handleSave = async () => {
     try {
-      console.log('Данные для сохранения:', formData);
+      await updateUser(user._id, formData);
       setEditMode(false);
     } catch (error) {
       console.error('Ошибка при сохранении данных:', error);
@@ -54,9 +55,9 @@ const ProfilePage = () => {
     }
 
     if (tab === 'orders' && user) {
-      getOrderHistory(user.id)
-        .then(response => {
-          setOrderHistory(response.data);
+      getOrderHistory(user._id)
+        .then(data => {
+          setOrderHistory(data);
           setLoading(false);
         })
         .catch(() => {
@@ -82,8 +83,8 @@ const ProfilePage = () => {
             <h2>История заказов</h2>
             {orderHistory.length > 0 ? (
               orderHistory.map(order => (
-                <div key={order.id}>
-                  <p>Заказ №{order.id}: {order.status}</p>
+                <div key={order._id}>
+                  <p>Заказ №{order.orderNumber}: {order.status}</p>
                 </div>
               ))
             ) : (

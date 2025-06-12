@@ -20,13 +20,8 @@ const Sidebar = forwardRef(({ collapsed }, ref) => {
                 {!collapsed && <p>NgMassa</p>}
             </div>
             <div className="nav-group">
-                {navbarLinks.map((navbarLink) => (
-                    <nav
-                        key={navbarLink.title}
-                        className="nav-group"
-                    >
-                        <p className="nav-group-title">{navbarLink.title}</p>
-                        {navbarLink.links.map((link) => (
+        
+                        {navbarLinks.map((link) => (
                             <NavLink
                                 key={link.label}
                                 to={link.path}
@@ -40,8 +35,7 @@ const Sidebar = forwardRef(({ collapsed }, ref) => {
                                 {!collapsed && <p>{link.label}</p>}
                             </NavLink>
                         ))}
-                    </nav>
-                ))}
+
             </div>
         </aside>
     );

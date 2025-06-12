@@ -3,10 +3,19 @@ const { Order, User } = require('../models');
 // Отримати всі замовлення
 exports.getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.findAll({ include: User });
+        const orders = await Order.find();
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: 'Помилка отримання замовлень', error });
+    }
+};
+exports.getOrdersByUser = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const orders = await Order.find({ user: userId }).populate('products.product');
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: 'Помилка отримання замовлень користувача', error });
     }
 };
 

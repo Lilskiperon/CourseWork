@@ -4,9 +4,7 @@ import ProfileImage from "../../public/assets/img/avatar_1.png";
 import ProductImage from "../../public/assets/img/logoSite.png";
 
 export const navbarLinks = [
-    {
-        title: "Dashboard",
-        links: [
+
             {
                 label: "Dashboard",
                 icon: Home,
@@ -22,11 +20,6 @@ export const navbarLinks = [
                 icon: NotepadText,
                 path: "/admin/reports",
             },
-        ],
-    },
-    {
-        title: "Customers",
-        links: [
             {
                 label: "Customers",
                 icon: Users,
@@ -37,11 +30,6 @@ export const navbarLinks = [
                 icon: UserPlus,
                 path: "/admin/new-customer",
             },
-        ],
-    },
-    {
-        title: "Products",
-        links: [
             {
                 label: "Products",
                 icon: Package,
@@ -57,18 +45,11 @@ export const navbarLinks = [
                 icon: ShoppingBag,
                 path: "/admin/inventory",
             },
-        ],
-    },
-    {
-        title: "Settings",
-        links: [
             {
                 label: "Settings",
                 icon: Settings,
                 path: "/admin/settings",
             },
-        ],
-    },
 ];
 
 export const overviewData = [

@@ -3,7 +3,7 @@ const { Product } = require('../models');
 // Получить все продукты
 exports.getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find().populate('packaging');
+        const products = await Product.find();
         res.json(products);
     } catch (err) {
         res.status(500).json({ error: 'Ошибка получения продуктов' });

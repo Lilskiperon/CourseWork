@@ -9,10 +9,10 @@ import "./AdminLayout.css";
 
 const AdminLayout = () => {
     const isDesktopDevice = useMediaQuery("(min-width: 768px)");
-    const [collapsed, setCollapsed] = useState(!isDesktopDevice);
+    const [collapsed, setCollapsed] = useState(isDesktopDevice);
     const sidebarRef = useRef(null);
     useEffect(() => {
-        setCollapsed(!isDesktopDevice);
+        setCollapsed(isDesktopDevice);
     }, [isDesktopDevice]);
 
     useClickOutside([sidebarRef], () => {

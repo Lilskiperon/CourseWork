@@ -1,3 +1,3 @@
 import { apiGet } from ".";
 
-export const getOrderHistory = () => apiGet('/products/new-arrivals');
+export const getOrderHistory = (userId) => apiGet(`/orders/user/${userId}`);

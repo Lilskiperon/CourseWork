@@ -20,10 +20,14 @@ import {
     ProfilePage,
     OrderProcessPage,
     CartPage,
+    ErrorPage,
 } from './pages';
 import DashboardPage from './pages/admin/Dashboard';
 import OrdersPage from './pages/admin/Orders';
+import ProductsPage from './pages/admin/Products';
+import UsersPage from './pages/admin/Users';
 import AdminLayout from './layout/admin/AdminLayout';
+
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
@@ -72,10 +76,10 @@ const router = createBrowserRouter([
             { path: "catalog", element: <CatalogPage /> },
             { path: "news/:id", element: <NewsPage /> },
             { path: "product/:productId", element: <ProductPage /> },
-            { path: "profile", element: <ProfilePage /> },
+            { path: "profile/:tab?", element: <ProfilePage /> },
             { path: "order-process", element: <OrderProcessPage /> },
             { path: "cart", element: <CartPage /> },
-            { path: "*", element: <div>Страница не найдена</div> },
+            { path: "*", element: <ErrorPage /> },
         ],
     },
     {
@@ -87,8 +91,8 @@ const router = createBrowserRouter([
                 element: <DashboardPage />,
             },
             {path: "orders", element: <OrdersPage />},
-            {path: "products", element: <div>Products</div>},
-            {path: "customers", element: <div>Customers</div>},
+            {path: "products", element: <ProductsPage/>},
+            {path: "customers", element: <UsersPage/>},
             // добавь сюда другие admin-страницы, если есть
         ],
     },
