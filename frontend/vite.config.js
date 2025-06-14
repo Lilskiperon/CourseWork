@@ -9,8 +9,4 @@ export default defineConfig({
       '@assets': '/src/assets',
     },
   },
-  server: {
-    host: '26.112.27.74',
-    changeOrigin: true,
-  },
 })

@@ -1,4 +1,4 @@
-// Универсальная функция для работы с localStorage с sessionId
+
 const storageHandler = {
   getItems: (sessionId, key) => {
       const items = JSON.parse(localStorage.getItem(`${sessionId}-${key}`)) || [];
@@ -11,7 +11,6 @@ const storageHandler = {
       const items = storageHandler.getItems(sessionId, key);
       const newItem = { productId, flavorId, packagingId };
       
-      // Проверяем, чтобы элемент с такой комбинацией не был добавлен
       if (!items.some(item => 
           item.productId === productId && 
           item.flavorId === flavorId && 
@@ -31,12 +30,11 @@ const storageHandler = {
   }
 };
 
-// Функции для работы с корзиной, списком желаемого и сравнением
+
 export const getCart = (sessionId) => storageHandler.getItems(sessionId, 'cart');
 export const getWishlist = (sessionId) => storageHandler.getItems(sessionId, 'wishlist');
 export const getComparison = (sessionId) => storageHandler.getItems(sessionId, 'comparison');
 
-// Функции для добавления и удаления элементов
 export const addToCart = (sessionId, productId, flavorId, packagingId) => {
   storageHandler.addItem(sessionId, 'cart', productId, flavorId, packagingId);
 };

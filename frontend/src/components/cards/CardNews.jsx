@@ -19,12 +19,12 @@ const CardNews = ({ news }) => {
         <div className="news-meta">
           <span className="news-date"><svg style={{width: "12px",height:"12px"}} ><use href='/assets/svg/sprite-icons.svg#icon-calendar'/>
             </svg>{new Date(news.date).toLocaleDateString()}</span>
-          <span className="news-author">Автор: <img src='/assets/img/avatar_1.png'/> {news.author}</span>
+          <span className="news-author">Author: <img src='/assets/img/avatar_1.png'/> {news.author}</span>
         </div>
         <div className="horizontal_line"></div>
         <p className="news-description">{news.content.slice(0, 45)}...</p>
         <div className="horizontal_line"></div>
-        <button className="news-button" onClick={handleReadMore}>Читать</button>
+        <button className="news-button" onClick={handleReadMore}>Read</button>
       </div>
     </div>
   );

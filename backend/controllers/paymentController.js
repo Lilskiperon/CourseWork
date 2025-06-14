@@ -1,6 +1,18 @@
 const { Order, Coupon, User } = require('../models');
 const  stripe  = require("../config/stripe.js");
 require('dotenv').config();
+
+function calculateTotalAmount(products, discountPercentage = 0) {
+    let total = 0;
+    for (const product of products) {
+        const amount = Math.round(product.packagingId.price * 100);
+        total += amount * (product.quantity || 1);
+    }
+    if (discountPercentage > 0) {
+        total -= Math.round((total * discountPercentage) / 100);
+    }
+    return total;
+}
 exports.createCheckoutSession = async (req, res) => {
 	try {
 		const { products, couponCode, deliveryAddress } = req.body;
@@ -10,11 +22,9 @@ exports.createCheckoutSession = async (req, res) => {
 			return res.status(400).json({ error: "Invalid or empty products array" });
 		}
 
-		let totalAmount = 0;
-		const lineItems = products.map((product) => {
-            
-			const amount = Math.round(product.packagingId.price * 100);
-			totalAmount += amount * product.quantity;
+		let totalAmount = calculateTotalAmount(products);
+        const lineItems = products.map((product) => {
+        const amount = Math.round(product.packagingId.price * 100);
 
 			return {
 				price_data: {
@@ -31,12 +41,12 @@ exports.createCheckoutSession = async (req, res) => {
 		});
 
 		let coupon = null;
-		if (couponCode) {
-			coupon = await Coupon.findOne({ code: couponCode, userId: user._id, isActive: true });
-			if (coupon) {
-				totalAmount -= Math.round((totalAmount * coupon.discountPercentage) / 100);
-			}
-		}
+        if (couponCode) {
+                coupon = await Coupon.findOne({ code: couponCode, userId: user._id, isActive: true });
+                if (coupon) {
+                        totalAmount = calculateTotalAmount(products, coupon.discountPercentage);
+                }
+        }
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card"],
 			line_items: lineItems,
@@ -163,3 +173,5 @@ async function createNewCoupon(userId) {
 
 	return newCoupon;
 }
+
+exports.calculateTotalAmount = calculateTotalAmount;

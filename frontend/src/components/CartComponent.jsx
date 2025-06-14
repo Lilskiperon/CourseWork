@@ -52,7 +52,7 @@ const CartComponent= ({ setActiveTab}) => {
             [name]: type === "checkbox" ? checked : value,
         }));
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
       e.preventDefault();
       if (user && user.isGuest === false) {
         setActiveTab(2);
@@ -60,14 +60,14 @@ const CartComponent= ({ setActiveTab}) => {
       else{
         const cleanPhone = (formData.phone || "").replace(/[+\s]/g, "");
         formData.phone = cleanPhone;
-        let result;
+        let result
         if (activeOption === "new") {
-          result = signup(formData);
+          result = await signup(formData)
         } else {
-          result = login(formData);
+          result = await login(formData)
         }
 
-        if (result.success==true) {
+        if (result.success) {
           setActiveTab(2);
         }
       }
@@ -180,7 +180,7 @@ const CartComponent= ({ setActiveTab}) => {
                 <h3>Personal data</h3>
                 <div className="personal-data-form">
                   <form className="form-method" onSubmit={handleSubmit}>
-                  {!user && user.isGuest === true ? (<div className="tabs">
+                  {user.isGuest === true ? (<div className="tabs">
                     <div 
                       className={`tab ${activeOption === "new" ? "active" : ""}`} 
                       onClick={() => setaActiveOption("new")}
@@ -221,7 +221,7 @@ const CartComponent= ({ setActiveTab}) => {
                         <input
                           type="text"
                           name="firstName"
-                          placeholder="Введите имя"
+                          placeholder="Name"
                           onChange={handleChange}
                           required
                         />
@@ -231,7 +231,7 @@ const CartComponent= ({ setActiveTab}) => {
                         <input
                           type="text"
                           name="lastName"
-                          placeholder="Введите фамилию"
+                          placeholder="Last name"
                           onChange={handleChange}
                           required
                         />
@@ -252,7 +252,7 @@ const CartComponent= ({ setActiveTab}) => {
                         <input
                           type="email"
                           name="email"
-                          placeholder="Введите e-mail"
+                          placeholder="Enter e-mail"
                           onChange={handleChange}
                           required
                         />
@@ -262,7 +262,7 @@ const CartComponent= ({ setActiveTab}) => {
                         <input
                           type="password"
                           name="password"
-                          placeholder="Введите пароль"
+                          placeholder="Enter your password"
                           onChange={handleChange}
                           required
                         />

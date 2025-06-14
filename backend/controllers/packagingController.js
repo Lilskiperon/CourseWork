@@ -150,7 +150,7 @@ exports.getAllSearchProducts = async (req, res) => {
     }
 
     try {
-        // Находим упаковки, у которых productId.productName содержит query (регистронезависимо)
+      
         const packagings = await Packaging.find()
             .populate({
                 path: 'productId',
@@ -158,7 +158,6 @@ exports.getAllSearchProducts = async (req, res) => {
                 select: 'productName _id brand category',
             });
 
-        // Оставляем только те упаковки, у которых productId найден (т.е. не null)
         const filteredPackagings = packagings.filter(p => p.productId);
 
         res.json(filteredPackagings);

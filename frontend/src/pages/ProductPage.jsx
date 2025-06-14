@@ -6,7 +6,7 @@ import { useSearchParams, useLocation, useNavigate,useParams  } from "react-rout
 import {useCartStore} from "../stores/useCartStore";
 
 const ProductPage = () => {
-  const { addToCart, cart } = useCartStore();
+  const { addToCart,updateQuantity,removeFromCart, cart } = useCartStore();
   const location = useLocation();
   const productState = location.state;
   const { productId } = useParams();
@@ -21,7 +21,7 @@ const ProductPage = () => {
   const [selectedPackaging, setSelectedPackaging] = useState(packagingId );
   const [selectedFlavor, setSelectedFlavor] = useState(flavorId);
   const [quantity,setQuantity] = useState(1);
-  
+  const isInCart = cart.some(item => item._id === selectedFlavor);
   const updateSearchParams = () => {
     navigate({
       pathname: location.pathname,
@@ -142,20 +142,22 @@ const ProductPage = () => {
           <div className="horizontal_line"></div>
           <div className="price-section">
             <span className="price">{(packagings.find(p => p._id === selectedPackaging)?.price * quantity || "-")} $</span>
+             {isInCart &&
              <QuantityControl
               quantity={quantity}
-              onIncrease={handleIncreaseQuantity}
-              onDecrease={handleDecreaseQuantity}
-            />
-            <button className="add-to-cart-btn" onClick={(e) =>
-              e.stopPropagation() || addToCart(selectedFlavor, quantity)
-            }>Add to cart</button>
+              onIncrease={() => updateQuantity(selectedFlavor, quantity + 1)}
+              onDecrease={() => updateQuantity(selectedFlavor, quantity - 1)}
+            />}
+            <button className="add-to-cart-btn" onClick={(e) =>{
+              e.stopPropagation();
+              isInCart ? removeFromCart(selectedFlavor) : addToCart(selectedFlavor);
+            }}>{isInCart ? 'Remove from basket' : 'Add to cart'}</button>
           </div>
           <div className="horizontal_line"></div>
           <div className="reviews">
             <strong>Reviews (0):</strong> No reviews yet.
             <p className="review-prompt">
-              Be the first to review “Stanozolol 10mg/tab, 100tab”
+              {product.productName}
             </p>
           </div>
         </div>

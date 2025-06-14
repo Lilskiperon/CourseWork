@@ -148,6 +148,9 @@ exports.loginUser = async (req, res) => {
 };
 exports.logoutUser = (req, res) => {
     try {
+        res.clearCookie('NgMassa', { httpOnly: true, sameSite: 'Lax' }); 
+        res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'Lax' }); 
+        res.clearCookie('accessToken', { httpOnly: true, sameSite: 'Lax' }); 
         res.clearCookie('authToken', { httpOnly: true, sameSite: 'Lax' }); 
         return res.json({ message: 'You have successfully logged out of the system.' });
     } catch (error) {

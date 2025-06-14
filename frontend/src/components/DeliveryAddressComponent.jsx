@@ -62,11 +62,11 @@ const DeliveryAddressComponent = () => {
             <form onSubmit={handlePayment}>
 
               <div className="form-group">
-                <label>full name*</label>
+                <label>Full name*</label>
                 <input
                   type="text"
                   name="fullName"
-                  placeholder="full name*"
+                  placeholder="Full name*"
                   value={formDelivery.fullName}
                   onChange={handleChange}
                   required
@@ -74,7 +74,7 @@ const DeliveryAddressComponent = () => {
               </div>
 
               <div className="form-group">
-                <label>Country/region*</label>
+                <label>Country*</label>
                 <select
                   name="country"
                   value={formDelivery.country}
@@ -91,7 +91,7 @@ const DeliveryAddressComponent = () => {
               </div>
 
               <div className="form-group">
-                <label>Область*</label>
+                <label>Region*</label>
                 <input
                   type="text"
                   name="region"

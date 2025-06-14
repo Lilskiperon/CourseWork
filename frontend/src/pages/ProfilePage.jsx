@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUserStore } from '../stores/useUserStore';
 import { getOrderHistory } from '../api/orders';
 import { updateUser, getAllUsers, getUserById } from '../api/user';
@@ -24,6 +24,11 @@ export default function ProfilePage () {
   const [orderHistory, setOrderHistory] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [error, setError] = useState(null);
+  useEffect(() => {
+    if (user?.isGuest) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
   useEffect(() => {
     if (user?.isAdmin) {
       getAllUsers()
@@ -85,6 +90,10 @@ export default function ProfilePage () {
     } catch (err) {
       console.error('Error saving data:', err);
     }
+  };
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   const renderOverview = () => (
@@ -167,7 +176,7 @@ export default function ProfilePage () {
         <div className="profile-page">
           <div className="profile-header">
             <h1>Welcome, {currentUser.firstName} {currentUser.lastName}</h1>
-            <button className="logout-btn" onClick={logout}>Exit</button>
+            <button className="logout-btn" onClick={handleLogout}>Exit</button>
           </div>
 
           <div className="profile-tabs">

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
 import { useNavigate } from 'react-router-dom';
 function RegisterPage() {
-  const { signup, loading } = useUserStore();
+  const {user, signup, loading } = useUserStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); 
@@ -32,9 +32,8 @@ function RegisterPage() {
       lastName,
       phone,
     };
-    signup(formData);
-
-
+    const { success } = await signup(formData);
+    if(success) { navigate("/profile");}
   };
 
 

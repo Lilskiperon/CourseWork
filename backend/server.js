@@ -50,7 +50,7 @@ app.use("/api/payments", paymentRoutes);
 
 // Запуск сервера
 const PORT = process.env.PORT || 5000;
-app.listen(PORT,'26.112.27.74', async () => {
+app.listen(PORT, async () => {
     console.log(`Сервер запущен на порту ${PORT}`);
     await connectDB(); // Подключаемся к MongoDB
 });

@@ -70,7 +70,7 @@ const CartMenu = ({ isVisible, onClose }) => {
                     </span>
                     <span className="item-flavor">{product.flavorName}</span>
                     <QuantityControl
-                      quantity={product.quantity}
+                      quantity={(product.quantity || 1)}
                       onIncrease={() => updateQuantity(product._id, product.quantity + 1)}
                       onDecrease={() => updateQuantity(product._id, product.quantity - 1)}
                     />
